@@ -1,0 +1,4 @@
+info: Entering event queue @ 10976500.  Starting simulation...
+Exiting @ tick 11073500 because m5_exit instruction encountered
+Writing Micro-checkpoint
+Dumping the caches

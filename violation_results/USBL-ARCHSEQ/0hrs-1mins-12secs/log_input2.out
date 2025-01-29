@@ -1,0 +1,110 @@
+system.cpu 0x401000    : mov	rax, 0x2282800002f5c0 
+system.cpu 0x401000.0  :   MOV_R_I : limm   rax, 0x2282800002f5c0 :  D=0x002282800002f5c0
+system.cpu 0x40100a    : mov	r8, 0x2282800002f5c0  
+system.cpu 0x40100a.0  :   MOV_R_I : limm   r8, 0x2282800002f5c0 :  D=0x002282800002f5c0
+system.cpu 0x401014    : or	rax, r8                
+system.cpu 0x401014.0  :   OR_R_R : or   rax, rax, r8 :  D=0x0000000000000000
+system.cpu 0x401017    : mov	rbx, 0x10050000119240 
+system.cpu 0x401017.0  :   MOV_R_I : limm   rbx, 0x10050000119240 :  D=0x0010050000119240
+system.cpu 0x401021    : mov	r8, 0x10050000119240  
+system.cpu 0x401021.0  :   MOV_R_I : limm   r8, 0x10050000119240 :  D=0x0010050000119240
+system.cpu 0x40102b    : or	rbx, r8                
+system.cpu 0x40102b.0  :   OR_R_R : or   rbx, rbx, r8 :  D=0x0000000000000000
+system.cpu 0x40102e    : mov	rcx, 0x243d8000136080 
+system.cpu 0x40102e.0  :   MOV_R_I : limm   rcx, 0x243d8000136080 :  D=0x00243d8000136080
+system.cpu 0x401038    : mov	r8, 0x1fffffffffffff  
+system.cpu 0x401038.0  :   MOV_R_I : limm   r8, 0x1fffffffffffff :  D=0x001fffffffffffff
+system.cpu 0x401042    : and	rcx, r8               
+system.cpu 0x401042.0  :   AND_R_R : and   rcx, rcx, r8 :  D=0x0000000000000000
+system.cpu 0x401045    : mov	rdx, 0x3f0740002a83c0 
+system.cpu 0x401045.0  :   MOV_R_I : limm   rdx, 0x3f0740002a83c0 :  D=0x003f0740002a83c0
+system.cpu 0x40104f    : mov	r8, 0x3f0740002a83c0  
+system.cpu 0x40104f.0  :   MOV_R_I : limm   r8, 0x3f0740002a83c0 :  D=0x003f0740002a83c0
+system.cpu 0x401059    : or	rdx, r8                
+system.cpu 0x401059.0  :   OR_R_R : or   rdx, rdx, r8 :  D=0x0000000000000000
+system.cpu 0x40105c    : mov	rsi, 0x1662400038d040 
+system.cpu 0x40105c.0  :   MOV_R_I : limm   rsi, 0x1662400038d040 :  D=0x001662400038d040
+system.cpu 0x401066    : mov	r8, 0x1662400038d040  
+system.cpu 0x401066.0  :   MOV_R_I : limm   r8, 0x1662400038d040 :  D=0x001662400038d040
+system.cpu 0x401070    : or	rsi, r8                
+system.cpu 0x401070.0  :   OR_R_R : or   rsi, rsi, r8 :  D=0x0000000000000000
+system.cpu 0x401073    : mov	rdi, 0x28d4c000076600 
+system.cpu 0x401073.0  :   MOV_R_I : limm   rdi, 0x28d4c000076600 :  D=0x0028d4c000076600
+system.cpu 0x40107d    : mov	r8, 0x28d4c000076600  
+system.cpu 0x40107d.0  :   MOV_R_I : limm   r8, 0x28d4c000076600 :  D=0x0028d4c000076600
+system.cpu 0x401087    : or	rdi, r8                
+system.cpu 0x401087.0  :   OR_R_R : or   rdi, rdi, r8 :  D=0x0000000000000000
+system.cpu 0x40108a    : mov	r15, 0                
+system.cpu 0x40108a.0  :   MOV_R_I : limm   r8, 0   :  D=0x0000000000000000
+system.cpu 0x401091    : mov	r15, 0                
+system.cpu 0x401091.0  :   MOV_R_I : limm   r9, 0   :  D=0x0000000000000000
+system.cpu 0x401098    : mov	r15, 0                
+system.cpu 0x401098.0  :   MOV_R_I : limm   r10, 0  :  D=0x0000000000000000
+system.cpu 0x40109f    : mov	r15, 0                
+system.cpu 0x40109f.0  :   MOV_R_I : limm   r11, 0  :  D=0x0000000000000000
+system.cpu 0x4010a6    : mov	r15, 0                
+system.cpu 0x4010a6.0  :   MOV_R_I : limm   r12, 0  :  D=0x0000000000000000
+system.cpu 0x4010ad    : mov	r15, 0                
+system.cpu 0x4010ad.0  :   MOV_R_I : limm   r13, 0  :  D=0x0000000000000000
+system.cpu 0x4010b4    : mov	r15, 0                
+system.cpu 0x4010b4.0  :   MOV_R_I : limm   r15, 0  :  D=0x0000000000000000
+system.cpu 0x4010bb    : mov	r15, 0x8503000        
+system.cpu 0x4010bb.0  :   MOV_R_I : limm   r14, 0x8503000 :  D=0x0000000008503000
+system.cpu 0x4010c2    : mov	rdi, 0x8506000        
+system.cpu 0x4010c2.0  :   MOV_R_I : limm   rsp, 0x8506000 :  D=0x0000000008506000
+system.cpu 0x4010c9    : mov	rdi, 0x8506000        
+system.cpu 0x4010c9.0  :   MOV_R_I : limm   rbp, 0x8506000 :  D=0x0000000008506000
+system.cpu 0x4010d0    : mov	r15, 0x882            
+system.cpu 0x4010d0.0  :   MOV_R_I : limm   r10, 0x882 :  D=0x0000000000000882
+system.cpu 0x4010d7    : push	r10                  
+system.cpu 0x4010d7.0  :   PUSH_R : stis   r10, SS:[rsp + 0xfffffffffffffff8] :  D=0x0000000000000882
+system.cpu 0x4010d7.1  :   PUSH_R : subi   rsp, rsp, 0x8 :  D=0x0000000008505ff8
+system.cpu 0x4010d9    : popf	                     
+system.cpu 0x4010d9.0  :   POPF : ld   t1, SS:[rsp] :  D=0x0000000000000882
+system.cpu 0x4010d9.1  :   POPF : addi   rsp, rsp, 0x8 :  D=0x0000000008506000
+system.cpu 0x4010d9.2  :   POPF : wrflags   %cc0, t1, t0 :  D=0x0000000000000002
+system.cpu 0x4010da    : mov	rdi, 0x8504ff8        
+system.cpu 0x4010da.0  :   MOV_R_I : limm   rsp, 0x8504ff8 :  D=0x0000000008504ff8
+system.cpu 0x4010e1    : mov	rdi, 0x8504ff8        
+system.cpu 0x4010e1.0  :   MOV_R_I : limm   rbp, 0x8504ff8 :  D=0x0000000008504ff8
+system.cpu 0x4010e8    :   LFENCE                   : 
+system.cpu 0x4010eb    : mov	rax, r14              
+system.cpu 0x4010eb.0  :   MOV_R_R : mov   rax, rax, r14 :  D=0x0000000008503000
+system.cpu 0x4010ee    : mov	rbx, DS:[rax + 0x1000]
+system.cpu 0x4010ee.0  :   MOV_R_M : ld   rbx, DS:[rax + 0x1000] :  D=0x00107e8000271640
+system.cpu 0x4010f5    : and	rax, 0x7e0            
+system.cpu 0x4010f5.0  :   AND_R_I : limm   t1, 0x7e0 :  D=0x00000000000007e0
+system.cpu 0x4010f5.1  :   AND_R_I : and   rbx, rbx, t1 :  D=0x0000000000000000
+system.cpu 0x4010fc    : mov	rbx, DS:[rbx + rax]   
+system.cpu 0x4010fc.0  :   MOV_R_M : ld   rbx, DS:[rbx + rax] :  D=0x003bcb80003b0280
+system.cpu 0x401100    : and	rax, 0x7e0            
+system.cpu 0x401100.0  :   AND_R_I : limm   t1, 0x7e0 :  D=0x00000000000007e0
+system.cpu 0x401100.1  :   AND_R_I : and   rbx, rbx, t1 :  D=0x0000000000000000
+system.cpu 0x401107    : mov	rbx, DS:[rbx + rax]   
+system.cpu 0x401107.0  :   MOV_R_M : ld   rbx, DS:[rbx + rax] :  D=0x002e6bc000296740
+system.cpu 0x40110b    : and	rax, 0x7e0            
+system.cpu 0x40110b.0  :   AND_R_I : limm   t1, 0x7e0 :  D=0x00000000000007e0
+system.cpu 0x40110b.1  :   AND_R_I : and   rbx, rbx, t1 :  D=0x0000000000000000
+system.cpu 0x401112    : mov	rbx, DS:[rbx + rax]   
+system.cpu 0x401112.0  :   MOV_R_M : ld   rbx, DS:[rbx + rax] :  D=0x0037a900003c8940
+system.cpu 0x401116    : and	rax, 0x7e0            
+system.cpu 0x401116.0  :   AND_R_I : limm   t1, 0x7e0 :  D=0x00000000000007e0
+system.cpu 0x401116.1  :   AND_R_I : and   rbx, rbx, t1 :  D=0x0000000000000000
+system.cpu 0x40111d    : mov	rbx, DS:[rbx + rax]   
+system.cpu 0x40111d.0  :   MOV_R_M : ld   rbx, DS:[rbx + rax] :  D=0x002a150000380200
+system.cpu 0x401121    : and	rax, 0x40             
+system.cpu 0x401121.0  :   AND_R_I : limm   t1, 0x40 :  D=0x0000000000000040
+system.cpu 0x401121.1  :   AND_R_I : and   rbx, rbx, t1 :  D=0x0000000000000000
+system.cpu 0x401125    : cmp	rax, 0                
+system.cpu 0x401125.0  :   CMP_R_I : limm   t1, 0   :  D=0x0000000000000000
+system.cpu 0x401125.1  :   CMP_R_I : sub   t0, rbx, t1 :  D=0x0000000000000000
+system.cpu 0x401129    : jz	0x11                   
+system.cpu 0x401129.0  :   JZ_I : rdip   t1, %ctrl153,  :  D=0x000000000040112b
+system.cpu 0x401129.1  :   JZ_I : limm   t2, 0x11   :  D=0x0000000000000011
+system.cpu 0x401129.2  :   JZ_I : wrip   , t1, t2   : 
+system.cpu 0x40113c    :   MFENCE                   : 
+system.cpu 0x40113f    :   LFENCE                   : 
+system.cpu 0x401142    : mov	rdi, 0x3c             
+system.cpu 0x401142.0  :   MOV_R_I : limm   rax, 0x3c :  D=0x000000000000003c
+system.cpu 0x401149    : xor	rdi, rdi              
+system.cpu 0x401149.0  :   XOR_R_R : xor   rdi, rdi, rdi :  D=0x0000000000000000

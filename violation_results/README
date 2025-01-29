@@ -1,0 +1,3 @@
+## Violation results placed here for respective runs.
+# violation_test on gem5 side is DEPRECIATED
+- Run unzipper.sh here to unzip violations, then drag individual violations subdirs into gem5zor repo's violation_test/fuzz_results to perform analysis.

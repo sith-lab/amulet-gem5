@@ -1,0 +1,140 @@
+    500: system.cpu.iew.lsq.thread0: Squashing from SQ [sn:0]
+system.cpu 0x401000    : mov	rax, 0x254b00002f26c0 
+system.cpu 0x401000.0  :   MOV_R_I : limm   rax, 0x254b00002f26c0 :  D=0x00254b00002f26c0
+system.cpu 0x40100a    : mov	r8, 0x254b00002f26c0  
+system.cpu 0x40100a.0  :   MOV_R_I : limm   r8, 0x254b00002f26c0 :  D=0x00254b00002f26c0
+system.cpu 0x401014    : or	rax, r8                
+system.cpu 0x401014.0  :   OR_R_R : or   rax, rax, r8 :  D=0x0000000000000000
+system.cpu 0x401017    : mov	rbx, 0x22a180002baac0 
+system.cpu 0x401017.0  :   MOV_R_I : limm   rbx, 0x22a180002baac0 :  D=0x0022a180002baac0
+system.cpu 0x401021    : mov	r8, 0x22a180002baac0  
+system.cpu 0x401021.0  :   MOV_R_I : limm   r8, 0x22a180002baac0 :  D=0x0022a180002baac0
+system.cpu 0x40102b    : or	rbx, r8                
+system.cpu 0x40102b.0  :   OR_R_R : or   rbx, rbx, r8 :  D=0x0000000000000000
+system.cpu 0x40102e    : mov	rcx, 0x378dc00015fc40 
+system.cpu 0x40102e.0  :   MOV_R_I : limm   rcx, 0x378dc00015fc40 :  D=0x00378dc00015fc40
+system.cpu 0x401038    : mov	r8, 0x378dc00015fc40  
+system.cpu 0x401038.0  :   MOV_R_I : limm   r8, 0x378dc00015fc40 :  D=0x00378dc00015fc40
+system.cpu 0x401042    : or	rcx, r8                
+system.cpu 0x401042.0  :   OR_R_R : or   rcx, rcx, r8 :  D=0x0000000000000000
+system.cpu 0x401045    : mov	rdx, 0x2728c0003b0880 
+system.cpu 0x401045.0  :   MOV_R_I : limm   rdx, 0x2728c0003b0880 :  D=0x002728c0003b0880
+system.cpu 0x40104f    : mov	r8, 0x2728c0003b0880  
+system.cpu 0x40104f.0  :   MOV_R_I : limm   r8, 0x2728c0003b0880 :  D=0x002728c0003b0880
+system.cpu 0x401059    : or	rdx, r8                
+system.cpu 0x401059.0  :   OR_R_R : or   rdx, rdx, r8 :  D=0x0000000000000000
+system.cpu 0x40105c    : mov	rsi, 0x1a9140000b8d40 
+system.cpu 0x40105c.0  :   MOV_R_I : limm   rsi, 0x1a9140000b8d40 :  D=0x001a9140000b8d40
+system.cpu 0x401066    : mov	r8, 0x1a9140000b8d40  
+system.cpu 0x401066.0  :   MOV_R_I : limm   r8, 0x1a9140000b8d40 :  D=0x001a9140000b8d40
+system.cpu 0x401070    : or	rsi, r8                
+system.cpu 0x401070.0  :   OR_R_R : or   rsi, rsi, r8 :  D=0x0000000000000000
+system.cpu 0x401073    : mov	rdi, 0x317b8000354f00 
+system.cpu 0x401073.0  :   MOV_R_I : limm   rdi, 0x317b8000354f00 :  D=0x00317b8000354f00
+system.cpu 0x40107d    : mov	r8, 0x317b8000354f00  
+system.cpu 0x40107d.0  :   MOV_R_I : limm   r8, 0x317b8000354f00 :  D=0x00317b8000354f00
+system.cpu 0x401087    : or	rdi, r8                
+system.cpu 0x401087.0  :   OR_R_R : or   rdi, rdi, r8 :  D=0x0000000000000000
+system.cpu 0x40108a    : mov	r15, 0                
+system.cpu 0x40108a.0  :   MOV_R_I : limm   r8, 0   :  D=0x0000000000000000
+system.cpu 0x401091    : mov	r15, 0                
+system.cpu 0x401091.0  :   MOV_R_I : limm   r9, 0   :  D=0x0000000000000000
+system.cpu 0x401098    : mov	r15, 0                
+system.cpu 0x401098.0  :   MOV_R_I : limm   r10, 0  :  D=0x0000000000000000
+system.cpu 0x40109f    : mov	r15, 0                
+system.cpu 0x40109f.0  :   MOV_R_I : limm   r11, 0  :  D=0x0000000000000000
+system.cpu 0x4010a6    : mov	r15, 0                
+system.cpu 0x4010a6.0  :   MOV_R_I : limm   r12, 0  :  D=0x0000000000000000
+system.cpu 0x4010ad    : mov	r15, 0                
+system.cpu 0x4010ad.0  :   MOV_R_I : limm   r13, 0  :  D=0x0000000000000000
+system.cpu 0x4010b4    : mov	r15, 0                
+system.cpu 0x4010b4.0  :   MOV_R_I : limm   r15, 0  :  D=0x0000000000000000
+ 265000: system.cpu.iew.lsq.thread0: Store request - PC 0x4010d7, SQ: [sn:30], Paddr 0x4ff8, Vaddr 0x8505ff8
+system.cpu 0x4010bb    : mov	r15, 0x8503000        
+system.cpu 0x4010bb.0  :   MOV_R_I : limm   r14, 0x8503000 :  D=0x0000000008503000
+system.cpu 0x4010c2    : mov	rdi, 0x8506000        
+system.cpu 0x4010c2.0  :   MOV_R_I : limm   rsp, 0x8506000 :  D=0x0000000008506000
+system.cpu 0x4010c9    : mov	rdi, 0x8506000        
+system.cpu 0x4010c9.0  :   MOV_R_I : limm   rbp, 0x8506000 :  D=0x0000000008506000
+system.cpu 0x4010d0    : mov	r15, 0x842            
+system.cpu 0x4010d0.0  :   MOV_R_I : limm   r10, 0x842 :  D=0x0000000000000842
+system.cpu 0x4010d7    : push	r10                  
+system.cpu 0x4010d7.0  :   PUSH_R : stis   r10, SS:[rsp + 0xfffffffffffffff8] :  D=0x0000000000000842
+system.cpu 0x4010d7.1  :   PUSH_R : subi   rsp, rsp, 0x8 :  D=0x0000000008505ff8
+system.cpu 0x4010d9    : popf	                     
+system.cpu 0x4010d9.0  :   POPF : ld   t1, SS:[rsp] :  D=0x0000000000000842
+system.cpu 0x4010d9.1  :   POPF : addi   rsp, rsp, 0x8 :  D=0x0000000008506000
+ 338001: system.cpu.iew.lsq: Received D$ response for packet addr 0x4ff8, block addr 0x4fc0
+system.cpu 0x4010d9.2  :   POPF : wrflags   %cc0, t1, t0 :  D=0x0000000000000002
+ 343500: system.cpu.iew.lsq.thread0: Attempting load request - PC 0x4010ee, SQ: [sn:39], Paddr 0x3000, Vaddr 0x8504000
+ 343500: system.cpu.iew.lsq.thread0: Successfully sent out load request - PC 0x4010ee, SQ: [sn:39], Paddr 0x3000, Vaddr 0x8504000, block addr 0x3000
+system.cpu 0x4010da    : mov	rdi, 0x8504ff8        
+system.cpu 0x4010da.0  :   MOV_R_I : limm   rsp, 0x8504ff8 :  D=0x0000000008504ff8
+system.cpu 0x4010e1    : mov	rdi, 0x8504ff8        
+system.cpu 0x4010e1.0  :   MOV_R_I : limm   rbp, 0x8504ff8 :  D=0x0000000008504ff8
+system.cpu 0x4010e8    :   LFENCE                   : 
+system.cpu 0x4010eb    : mov	rax, r14              
+system.cpu 0x4010eb.0  :   MOV_R_R : mov   rax, rax, r14 :  D=0x0000000008503000
+ 346000: system.cpu.iew.lsq.thread0: Attempting load request - PC 0x40112b, SQ: [sn:59], Paddr 0x3462, Vaddr 0x8504462
+ 346000: system.cpu.iew.lsq.thread0: Successfully sent out load request - PC 0x40112b, SQ: [sn:59], Paddr 0x3462, Vaddr 0x8504462, block addr 0x3440
+ 412501: system.cpu.iew.lsq: Received D$ response for packet addr 0x3000, block addr 0x3000
+ 414000: system.cpu.iew.lsq.thread0: Attempting load request - PC 0x4010fc, SQ: [sn:42], Paddr 0x25c0, Vaddr 0x85035c0
+ 414000: system.cpu.iew.lsq.thread0: Successfully sent out load request - PC 0x4010fc, SQ: [sn:42], Paddr 0x25c0, Vaddr 0x85035c0, block addr 0x25c0
+system.cpu 0x4010ee    : mov	rbx, DS:[rax + 0x1000]
+system.cpu 0x4010ee.0  :   MOV_R_M : ld   rbx, DS:[rax + 0x1000] :  D=0x00138f00001f7dc0
+system.cpu 0x4010f5    : and	rax, 0x7e0            
+system.cpu 0x4010f5.0  :   AND_R_I : limm   t1, 0x7e0 :  D=0x00000000000007e0
+system.cpu 0x4010f5.1  :   AND_R_I : and   rbx, rbx, t1 :  D=0x0000000000000000
+ 448501: system.cpu.iew.lsq: Received D$ response for packet addr 0x3462, block addr 0x3440
+ 450500: system.cpu.iew.lsq.thread0: Attempting load request - PC 0x40113c, SQ: [sn:63], Paddr 0x20e8, Vaddr 0x85030e8
+ 450500: system.cpu.iew.lsq.thread0: Successfully sent out load request - PC 0x40113c, SQ: [sn:63], Paddr 0x20e8, Vaddr 0x85030e8, block addr 0x20c0
+ 475501: system.cpu.iew.lsq: Received D$ response for packet addr 0x25c0, block addr 0x25c0
+ 477000: system.cpu.iew.lsq.thread0: Attempting load request - PC 0x401107, SQ: [sn:45], Paddr 0x20c0, Vaddr 0x85030c0
+system.cpu 0x4010fc    : mov	rbx, DS:[rbx + rax]   
+system.cpu 0x4010fc.0  :   MOV_R_M : ld   rbx, DS:[rbx + rax] :  D=0x001db7c0001d20c0
+system.cpu 0x401100    : and	rax, 0x7e0            
+system.cpu 0x401100.0  :   AND_R_I : limm   t1, 0x7e0 :  D=0x00000000000007e0
+system.cpu 0x401100.1  :   AND_R_I : and   rbx, rbx, t1 :  D=0x0000000000000000
+ 512001: system.cpu.iew.lsq: Received D$ response for packet addr 0x20e8, block addr 0x20c0
+ 512500: system.cpu.iew.lsq.thread0: Attempting load request - PC 0x401107, SQ: [sn:45], Paddr 0x20c0, Vaddr 0x85030c0
+ 512500: system.cpu.iew.lsq.thread0: Successfully sent out load request - PC 0x401107, SQ: [sn:45], Paddr 0x20c0, Vaddr 0x85030c0, block addr 0x20c0
+ 513001: system.cpu.iew.lsq: Received D$ response for packet addr 0x20c0, block addr 0x20c0
+ 514500: system.cpu.iew.lsq.thread0: Attempting load request - PC 0x401112, SQ: [sn:48], Paddr 0x2500, Vaddr 0x8503500
+ 514500: system.cpu.iew.lsq.thread0: Successfully sent out load request - PC 0x401112, SQ: [sn:48], Paddr 0x2500, Vaddr 0x8503500, block addr 0x2500
+system.cpu 0x401107    : mov	rbx, DS:[rbx + rax]   
+system.cpu 0x401107.0  :   MOV_R_M : ld   rbx, DS:[rbx + rax] :  D=0x00334480000bf500
+system.cpu 0x40110b    : and	rax, 0x7e0            
+system.cpu 0x40110b.0  :   AND_R_I : limm   t1, 0x7e0 :  D=0x00000000000007e0
+system.cpu 0x40110b.1  :   AND_R_I : and   rbx, rbx, t1 :  D=0x0000000000000000
+ 576001: system.cpu.iew.lsq: Received D$ response for packet addr 0x2500, block addr 0x2500
+ 577500: system.cpu.iew.lsq.thread0: Attempting load request - PC 0x40111d, SQ: [sn:51], Paddr 0x2700, Vaddr 0x8503700
+ 577500: system.cpu.iew.lsq.thread0: Successfully sent out load request - PC 0x40111d, SQ: [sn:51], Paddr 0x2700, Vaddr 0x8503700, block addr 0x2700
+system.cpu 0x401112    : mov	rbx, DS:[rbx + rax]   
+system.cpu 0x401112.0  :   MOV_R_M : ld   rbx, DS:[rbx + rax] :  D=0x002dce80003f6700
+system.cpu 0x401116    : and	rax, 0x7e0            
+system.cpu 0x401116.0  :   AND_R_I : limm   t1, 0x7e0 :  D=0x00000000000007e0
+system.cpu 0x401116.1  :   AND_R_I : and   rbx, rbx, t1 :  D=0x0000000000000000
+ 639001: system.cpu.iew.lsq: Received D$ response for packet addr 0x2700, block addr 0x2700
+system.cpu 0x40111d    : mov	rbx, DS:[rbx + rax]   
+system.cpu 0x40111d.0  :   MOV_R_M : ld   rbx, DS:[rbx + rax] :  D=0x0000494000056780
+system.cpu 0x401121    : and	rax, 0x40             
+system.cpu 0x401121.0  :   AND_R_I : limm   t1, 0x40 :  D=0x0000000000000040
+system.cpu 0x401121.1  :   AND_R_I : and   rbx, rbx, t1 :  D=0x0000000000000000
+system.cpu 0x401125    : cmp	rax, 0                
+system.cpu 0x401125.0  :   CMP_R_I : limm   t1, 0   :  D=0x0000000000000000
+ 641500: system.cpu.rob: SQUASH FILTER - Squashing on load PC:0x40113c, SQ:63, Paddr:0x20e8, Vaddr:0x85030e8
+ 642000: system.cpu.iew.lsq.thread0: Squashing from SQ [sn:58]
+ 642000: system.cpu.iew.lsq.thread0: LSQUnit - Squashed Load: PC 0x40113c, SQ: [sn:63], Paddr 0x20e8, Vaddr 0x85030e8
+ 642000: system.cpu.iew.lsq.thread0: LSQUnit - Squashed Load: PC 0x40112b, SQ: [sn:59], Paddr 0x3462, Vaddr 0x8504462
+ 642000: system.cpu.rob: SQUASH FILTER - Squashing on load PC:0x40112b, SQ:59, Paddr:0x3462, Vaddr:0x8504462
+system.cpu 0x401125.1  :   CMP_R_I : sub   t0, rbx, t1 :  D=0x0000000000000000
+system.cpu 0x401129    : jz	0x15                   
+system.cpu 0x401129.0  :   JZ_I : rdip   t1, %ctrl153,  :  D=0x000000000040112b
+system.cpu 0x401129.1  :   JZ_I : limm   t2, 0x15   :  D=0x0000000000000015
+system.cpu 0x401129.2  :   JZ_I : wrip   , t1, t2   : 
+system.cpu 0x401140    :   MFENCE                   : 
+system.cpu 0x401143    :   LFENCE                   : 
+system.cpu 0x401146    : mov	rdi, 0x3c             
+system.cpu 0x401146.0  :   MOV_R_I : limm   rax, 0x3c :  D=0x000000000000003c
+system.cpu 0x40114d    : xor	rdi, rdi              
+system.cpu 0x40114d.0  :   XOR_R_R : xor   rdi, rdi, rdi :  D=0x0000000000000000

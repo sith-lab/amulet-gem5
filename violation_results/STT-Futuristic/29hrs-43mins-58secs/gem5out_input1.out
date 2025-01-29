@@ -1,0 +1,17 @@
+gem5 Simulator System.  http://gem5.org
+gem5 is copyrighted software; use the --copyright option for details.
+
+gem5 compiled Jun  8 2024 01:25:54
+gem5 started Jun  9 2024 07:28:40
+gem5 executing on 99e2dad79e82, pid 1780720
+command line: /code/gem5-docker/build/X86/gem5.opt --outdir=/code/gem5-docker/m5out_STT-ST-SIMPLE-ARCHSEQ_core81 /code/gem5-docker/configs/example/se.py -c debug_STT-ST-SIMPLE-ARCHSEQ_core81/one/test_case_94_3883327819.out --cpu-type=DerivO3CPU --l1d_size=8kB --l1i_size=8kB --l2cache --ruby --dump-caches --num-cpu=1 --needsTSO=1 --STT=1 --implicit_channel=1 --threat_model=Futuristic --rel-max-tick=100000000 --checkpoint-dir=/code/gem5-docker/checkpoint_STT-ST-SIMPLE-ARCHSEQ_core81 --l1d_assoc=2 --l1d_size=8kB --L1_TBEs=2 --L2_TBEs=2
+
+info: Standard input is not a terminal, disabling listeners.
+**********
+**********
+Global frequency set at 1000000000000 ticks per second
+Info: simulation uses threatModel: Futuristic; needsTSO=1
+applySTT = 1, implicit_channel = 1, ifPrintROB = 0, moreTransmitInsts = 0
+**** REAL SIMULATION ****
+Exiting @ tick 758000 because exiting with last active thread context
+Dumping the caches

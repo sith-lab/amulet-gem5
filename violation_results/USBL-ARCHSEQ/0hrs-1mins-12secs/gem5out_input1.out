@@ -1,0 +1,17 @@
+gem5 Simulator System.  http://gem5.org
+gem5 is copyrighted software; use the --copyright option for details.
+
+gem5 compiled Jun 18 2024 17:32:36
+gem5 started Jun 19 2024 18:49:25
+gem5 executing on 8f01eb827b2c, pid 2451162
+command line: /code/gem5-docker/build/X86/gem5.opt --debug-flags=ExecEnable,ExecUser,ExecKernel,ExecFaulting,ExecMacro,ExecMicro,ExecResult --debug-file=log.out --outdir=/code/gem5-docker/m5out_dolma_spec_store_core1 /code/gem5-docker/configs/example/se.py -c debug_dolma_spec_store_core1/one/test_case_0_2253611280.out --cpu-type=DerivO3CPU --l1d_size=8kB --l1i_size=8kB --l2cache --ruby --dump-caches --num-cpu=1 --needsTSO=1 --STT=0 --implicit_channel=0 --threat_model=UnsafeBaseline --rel-max-tick=100000000 --checkpoint-dir=/code/gem5-docker/checkpoint_dolma_spec_store_core1 --dump-stats --l1d_assoc=2 --l1d_size=8kB --L1_TBEs=2 --L2_TBEs=2 --DC_TBEs=2
+
+info: Standard input is not a terminal, disabling listeners.
+**********
+**********
+Global frequency set at 1000000000000 ticks per second
+Info: simulation uses threatModel: UnsafeBaseline; needsTSO=1
+applySTT = 0, implicit_channel = 0, ifPrintROB = 0, moreTransmitInsts = 0
+**** REAL SIMULATION ****
+Exiting @ tick 709500 because exiting with last active thread context
+Dumping the caches
