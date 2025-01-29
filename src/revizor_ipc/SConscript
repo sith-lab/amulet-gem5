@@ -1,0 +1,8 @@
+Import('*')
+
+SimObject('RevizorIPC.py', sim_objects=['RevizorIPC'])
+Source('revizor_ipc.cc')
+
+DebugFlag('RevizorIPC')
+DebugFlag('RevizorIPCAddrs')
+DebugFlag('AnalyseIPC')
