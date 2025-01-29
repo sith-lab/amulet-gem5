@@ -1,0 +1,8 @@
+ipython
+jinja2
+matplotlib
+natsort
+pandas
+pathlib
+pyelftools
+progressbar2
