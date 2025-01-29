@@ -1,0 +1,3 @@
+testcase*/*.o
+testcase*/*.out
+__pycache__
