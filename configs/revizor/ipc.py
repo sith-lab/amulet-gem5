@@ -12,11 +12,41 @@ import time
 
 addToPath('../example')
 
+def parse_size_as_bytes(size):
+    ''' converts a human-readable size (e.g. 10kB) to the number of bytes (e.g. 10240) '''
+    if type(size) == int: return size
+    if size.isdigit(): return int(size) # Return byte size if already in bytes
+    size = size.lower()
+    if size.endswith('kb'): return int(size[:-2]) << 10
+    if size.endswith('mb'): return int(size[:-2]) << 20
+    if size.endswith('gb'): return int(size[:-2]) << 30
+    if size.endswith('tb'): return int(size[:-2]) << 40
+    if size.endswith('b'): return int(size[:-1]) # Last case: assume bytes
+    raise ValueError('unrecognized size format: {}'.format(size))
+
+if '--sandbox-size' in sys.argv:
+    index = sys.argv.index('--sandbox-size')
+    sys.argv.pop(index)
+    sandbox_size = parse_size_as_bytes(sys.argv.pop(index))
+assert sandbox_size % 4096 == 0
+sandbox_pages = sandbox_size // 4096
+
+l1d_size = None
+l1d_assoc = None
+for arg in sys.argv:
+    if arg.startswith('--l1d_size='):
+        l1d_size = parse_size_as_bytes(arg[len('--l1d_size='):])
+    if arg.startswith('--l1d_assoc='):
+        l1d_assoc = parse_size_as_bytes(arg[len('--l1d_assoc='):])
+if l1d_size is None: raise ValueError("Couldn't find --l1d_size=... argument")
+if l1d_assoc is None: raise ValueError("Couldn't find --l1d_assoc=... argument")
+
+
 configs_revizor_path = os.path.dirname(os.path.abspath(__file__))
 configs_path = os.path.dirname(configs_revizor_path)
 gem5_path = os.path.dirname(configs_path)
 assembly_path = configs_revizor_path + "/ipc_base_x86.s"
-object_path = gem5_path + "/build/X86/revizor_ipc_base.o"
+object_path = gem5_path + "/build/X86/revizor_ipc_base_{}way_{}B_l1d_{}page_sandbox.o".format(l1d_assoc, l1d_size, sandbox_pages)
 exec_path = object_path[:object_path.rindex(".o")] + ".out"
 if '--socket' in sys.argv:
     index = sys.argv.index('--socket')
@@ -60,10 +90,13 @@ def print_and_run(*cmd):
 if is_newer(assembly_path, object_path):
     # assemble base file
     print('assembling', object_path, '...')
-    print_and_run('as', assembly_path, '-o', object_path)
+    print_and_run('as', assembly_path, '-o', object_path, '--defsym', 'L1D_SIZE={}'.format(l1d_size),
+        '--defsym', 'L1D_ASSOC={}'.format(l1d_assoc), '--defsym', 'SANDBOX_PAGES={}'.format(sandbox_pages))
 if is_newer(object_path, exec_path):
     print('linking', exec_path, '...')
     print_and_run('ld', object_path, '-o', exec_path)
+
+print('Using executable', exec_path)
 
 import se
 from se import system, root, args, Simulation

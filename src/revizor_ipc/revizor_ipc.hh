@@ -37,10 +37,10 @@ namespace gem5
       void send(const void *buf, size_t count);
       uint8_t *vaddrToHost(Addr addr);
       int sock = -1;
+      BaseCPU *cpu = nullptr;
       BaseCache *l1dCache = nullptr;
       BaseCache *l1iCache = nullptr;
       BaseCache *l2Cache = nullptr;
-      BaseCPU *cpu = nullptr;
       AbstractMemory *dram = nullptr;
       // RubySystem *ruby = nullptr;
       Process *process = nullptr;

@@ -22,10 +22,6 @@ using namespace o3;
 
 static constexpr uint64_t maxCodeSize = 512;
 
-// if you increase these, be sure to update configs/revizor/ipc_base_x86.s
-#define SANDBOX_PAGES 1
-static constexpr uint64_t maxSandboxSize = 4096 * (SANDBOX_PAGES + 1);
-
 static constexpr uint64_t maxRegistersSize = 64;
 static const uint64_t opInit = 0xd09e95bc2c73ad66;
 static const uint64_t opAckInit = 0xc4f991d25774a0ac;
@@ -341,13 +337,11 @@ void RevizorIPC::traceTestCase() {
     std::vector<uint8_t> input;
     input.resize(inputSize, 0);
     recv(&input[0], inputSize);
-    assert(registersStart <= maxSandboxSize);
     assert(inputSize - registersStart <= maxRegistersSize);
     // Disable this for now since it is slowing us down.
     // assert(hashBytes(&input[0], inputSize) == inputHash);
     uint8_t *sandbox = vaddrToHost(addresses.at("sandbox"));
     uint8_t *registers = vaddrToHost(addresses.at("registers"));
-    memset(sandbox, 0, maxSandboxSize);
     memcpy(sandbox, &input[0], registersStart);
     memset(registers, 0, maxRegistersSize);
     memcpy(registers, &input[registersStart], inputSize - registersStart);

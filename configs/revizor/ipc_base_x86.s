@@ -7,11 +7,15 @@
 // base address of memory sandbox for code to play with
 .global sandbox
 
-.equiv L1D_SIZE, (128 << 10)
-.equiv L1D_ASSOC, 8
-
-// CHANGE THIS FOR SANDBOX: Number of pages in sandbox
-.equiv SANDBOX_PAGES, 1
+.ifndef L1D_SIZE
+.error "L1D_SIZE not defined"
+.endif
+.ifndef L1D_ASSOC
+.error "L1D_ASSOC not defined"
+.endif
+.ifndef SANDBOX_PAGES
+.error "SANDBOX_PAGES not defined"
+.endif
 
 // A number which is a multiple of a large power of 2
 // (it just has to satisfy the two conditions asserted below)
