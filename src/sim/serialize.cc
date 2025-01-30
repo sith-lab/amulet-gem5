@@ -65,6 +65,7 @@
 #include "base/str.hh"
 #include "base/trace.hh"
 #include "debug/Checkpoint.hh"
+#include "debug/DumpTLBWithCaches.hh"
 #include "sim/eventq.hh"
 #include "sim/sim_events.hh"
 #include "sim/sim_exit.hh"
@@ -650,6 +651,11 @@ Serializable::serializeAllCachesTo(std::ostream &outstream) {
     outstream << "## Cache tags generated: " << ctime(&t);
 
     SimObject::serializeAllCaches(outstream);
+    if (DTRACE(DumpTLBWithCaches)) {
+        SimObject *tlb = SimObject::find("system.cpu.dtb");
+        if (tlb)
+            tlb->serializeSection(outstream, "system.cpu.dtb");
+    }
 }
 
 std::string
