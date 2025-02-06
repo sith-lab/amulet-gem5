@@ -104,6 +104,7 @@ if is_newer(assembly_path, object_path):
     os.rename(temp, object_path)
 if is_newer(object_path, exec_path):
     print('linking', exec_path, '...')
+    temp = random_filename()
     print_and_run('ld', object_path, '-o', temp)
     os.rename(temp, exec_path)
 
