@@ -9,6 +9,7 @@ import os
 import sys
 import subprocess
 import time
+import base64
 
 addToPath('../example')
 
@@ -90,14 +91,21 @@ def print_and_run(*cmd):
         print('failed with error code', retcode)
         exit(retcode)
 
+def random_filename():
+    return gem5_path + '/build/X86/' + base64.b64encode(os.urandom(32)).decode().replace('/','_').replace('+','_').replace('=','_')
+
 if is_newer(assembly_path, object_path):
     # assemble base file
     print('assembling', object_path, '...')
-    print_and_run('as', assembly_path, '-o', object_path, '--defsym', 'L1D_SIZE={}'.format(l1d_size),
+    # first output to a temporary location then (atomically) rename it to prevent race condition
+    temp = random_filename()
+    print_and_run('as', assembly_path, '-o', temp, '--defsym', 'L1D_SIZE={}'.format(l1d_size),
         '--defsym', 'L1D_ASSOC={}'.format(l1d_assoc), '--defsym', 'SANDBOX_PAGES={}'.format(sandbox_pages))
+    os.rename(temp, object_path)
 if is_newer(object_path, exec_path):
     print('linking', exec_path, '...')
-    print_and_run('ld', object_path, '-o', exec_path)
+    print_and_run('ld', object_path, '-o', temp)
+    os.rename(temp, exec_path)
 
 print('Using executable', exec_path)
 
