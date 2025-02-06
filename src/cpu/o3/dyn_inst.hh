@@ -638,7 +638,7 @@ class DynInst : public ExecContext, public RefCounted
     
 
     bool isUnsafe(){
-      return !isSquashed() && ((isCUSL() || ismUSL())); // && isreallyUnsafe());
+      return !isSquashed() && ((isCUSL() || ismUSL()) && isreallyUnsafe());
     }
 
     void setCUSL()

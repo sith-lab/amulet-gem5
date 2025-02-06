@@ -813,8 +813,10 @@ void LSQUnit::updateSafeState() {
     Unsafe rob_unsafe;
     auto iter = loadQueue.begin();
 
-    // while (++iter != loadQueue.end() &&iter->instruction()) {
-    while ( (iter != loadQueue.end()) && iter->instruction()) {
+    // int load_idx = loadQueue.front();
+
+    while (++iter != loadQueue.end() &&iter->instruction()) {
+    //while ( (iter != loadQueue.end()) && iter->instruction()) {
 
         DynInstPtr inst = iter->instruction();
         DPRINTF(Speclfb, "Checking updateSafeState "
@@ -909,7 +911,6 @@ void LSQUnit::updateSafeState() {
                     inst->setreallyUnsafe();
             }
         }
-
         if(!inst->isUnsafe()) {
             if(inst->isSpeclfbStalled()){
                 inst->clearSpeclfbStalled();
@@ -918,7 +919,7 @@ void LSQUnit::updateSafeState() {
                     rob_unsafe.unsafePCremove(inst->pcState().instAddr());
             }
         }
-        iter++;
+        //iter++;
     }
 }
 
