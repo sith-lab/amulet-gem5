@@ -136,9 +136,9 @@ if '--ruby' in sys.argv:
 
 options = parser.parse_args()
 
-if args:
-    print("Error: script doesn't take any positional arguments")
-    sys.exit(1)
+# if options:
+#     print("Error: script doesn't take any positional arguments")
+#     sys.exit(1)
 
 #multiprocesses = []
 numThreads = 1
