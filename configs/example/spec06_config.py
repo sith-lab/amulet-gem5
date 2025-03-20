@@ -137,121 +137,121 @@ if '--ruby' in sys.argv:
 (options, args) = parser.parse_args()
 
 if args:
-    print "Error: script doesn't take any positional arguments"
+    print("Error: script doesn't take any positional arguments")
     sys.exit(1)
 
 #multiprocesses = []
 numThreads = 1
 
 if options.benchmark:
-    print 'Selected SPEC_CPU2006 benchmark'
+    print('Selected SPEC_CPU2006 benchmark')
     if options.benchmark == 'perlbench':
-        print '--> perlbench'
+        print("--> (.*)")
         process = spec06_benchmarks.perlbench
     elif options.benchmark == 'bzip2':
-        print '--> bzip2'
+        print("--> (.*)")
         process = spec06_benchmarks.bzip2
     elif options.benchmark == 'gcc':
-        print '--> gcc'
+        print("--> (.*)")
         process = spec06_benchmarks.gcc
     elif options.benchmark == 'bwaves':
-        print '--> bwaves'
+        print("--> (.*)")
         process = spec06_benchmarks.bwaves
     elif options.benchmark == 'gamess':
-        print '--> gamess'
+        print("--> (.*)")
         process = spec06_benchmarks.gamess
     elif options.benchmark == 'mcf':
-        print '--> mcf'
+        print("--> (.*)")
         process = spec06_benchmarks.mcf
     elif options.benchmark == 'milc':
-        print '--> milc'
+        print("--> (.*)")
         process = spec06_benchmarks.milc
     elif options.benchmark == 'zeusmp':
-        print '--> zeusmp'
+        print("--> (.*)")
         process = spec06_benchmarks.zeusmp
     elif options.benchmark == 'gromacs':
-        print '--> gromacs'
+        print("--> (.*)")
         process = spec06_benchmarks.gromacs
     elif options.benchmark == 'cactusADM':
-        print '--> cactusADM'
+        print("--> (.*)")
         process = spec06_benchmarks.cactusADM
     elif options.benchmark == 'leslie3d':
-        print '--> leslie3d'
+        print("--> (.*)")
         process = spec06_benchmarks.leslie3d
     elif options.benchmark == 'namd':
-        print '--> namd'
+        print("--> (.*)")
         process = spec06_benchmarks.namd
     elif options.benchmark == 'gobmk':
-        print '--> gobmk'
+        print("--> (.*)")
         process = spec06_benchmarks.gobmk
     elif options.benchmark == 'dealII':
-        print '--> dealII'
+        print("--> (.*)")
         process = spec06_benchmarks.dealII
     elif options.benchmark == 'soplex':
-        print '--> soplex'
+        print("--> (.*)")
         process = spec06_benchmarks.soplex
     elif options.benchmark == 'povray':
-        print '--> povray'
+        print("--> (.*)")
         process = spec06_benchmarks.povray
     elif options.benchmark == 'calculix':
-        print '--> calculix'
+        print("--> (.*)")
         process = spec06_benchmarks.calculix
     elif options.benchmark == 'hmmer':
-        print '--> hmmer'
+        print("--> (.*)")
         process = spec06_benchmarks.hmmer
     elif options.benchmark == 'sjeng':
-        print '--> sjeng'
+        print("--> (.*)")
         process = spec06_benchmarks.sjeng
     elif options.benchmark == 'GemsFDTD':
-        print '--> GemsFDTD'
+        print("--> (.*)")
         process = spec06_benchmarks.GemsFDTD
     elif options.benchmark == 'libquantum':
-        print '--> libquantum'
+        print("--> (.*)")
         process = spec06_benchmarks.libquantum
     elif options.benchmark == 'h264ref':
-        print '--> h264ref'
+        print("--> (.*)")
         process = spec06_benchmarks.h264ref
     elif options.benchmark == 'tonto':
-        print '--> tonto'
+        print("--> (.*)")
         process = spec06_benchmarks.tonto
     elif options.benchmark == 'lbm':
-        print '--> lbm'
+        print("--> (.*)")
         process = spec06_benchmarks.lbm
     elif options.benchmark == 'omnetpp':
-        print '--> omnetpp'
+        print("--> (.*)")
         process = spec06_benchmarks.omnetpp
     elif options.benchmark == 'astar':
-        print '--> astar'
+        print("--> (.*)")
         process = spec06_benchmarks.astar
     elif options.benchmark == 'wrf':
-        print '--> wrf'
+        print("--> (.*)")
         process = spec06_benchmarks.wrf
     elif options.benchmark == 'sphinx3':
-        print '--> sphinx3'
+        print("--> (.*)")
         process = spec06_benchmarks.sphinx3
     elif options.benchmark == 'xalancbmk':
-        print '--> xalancbmk'
+        print("--> (.*)")
         process = spec06_benchmarks.xalancbmk
     elif options.benchmark == 'specrand_i':
-        print '--> specrand_i'
+        print("--> (.*)")
         process = spec06_benchmarks.specrand_i
     elif options.benchmark == 'specrand_f':
-        print '--> specrand_f'
+        print("--> (.*)")
         process = spec06_benchmarks.specrand_f
     else:
-        print "No recognized SPEC2006 benchmark selected! Exiting."
+        print("No recognized SPEC2006 benchmark selected! Exiting.")
         sys.exit(1)
 else:
-    print >> sys.stderr, "Need --benchmark switch to specify SPEC CPU2006 workload. Exiting!\n"
+    print("Need --benchmark switch to specify SPEC CPU2006 workload. Exiting!\n", file=sys.stderr)
     sys.exit(1)
 
 # Set process stdout/stderr
 if options.benchmark_stdout:
     process.output = options.benchmark_stdout
-    print "Process stdout file: " + process.output
+    print("Process stdout file: " + process.output)
 if options.benchmark_stderr:
     process.errout = options.benchmark_stderr
-    print "Process stderr file: " + process.errout
+    print("Process stderr file: " + process.errout)
 
 #if options.bench:
 #    apps = options.bench.split("-")
@@ -290,10 +290,10 @@ if options.smt and options.num_cpus > 1:
     fatal("You cannot use SMT with multiple CPUs!")
 
 np = options.num_cpus
-system = System(cpu = [CPUClass(cpu_id=i) for i in xrange(np)],
-                mem_mode = test_mem_mode,
-                mem_ranges = [AddrRange(options.mem_size)],
-                cache_line_size = options.cacheline_size)
+system = System(cpu=[CPUClass(cpu_id=i) for i in range(np)],
+                mem_mode=test_mem_mode,
+                mem_ranges=[AddrRange(options.mem_size)],
+                cache_line_size=options.cacheline_size)
 
 if numThreads > 1:
     system.multi_thread = True
@@ -346,9 +346,9 @@ if options.simpoint_profile:
     if np > 1:
         fatal("SimPoint generation not supported with more than one CPUs")
 
-for i in xrange(np):
+for i in range(np):
     system.cpu[i].workload = process
-    print process.cmd
+    print(process.cmd)
 
     #if options.smt:
     #    system.cpu[i].workload = multiprocesses
@@ -372,9 +372,9 @@ if options.ruby:
     Ruby.create_system(options, False, system)
     assert(options.num_cpus == len(system.ruby._cpu_ports))
 
-    system.ruby.clk_domain = SrcClockDomain(clock = options.ruby_clock,
-                                        voltage_domain = system.voltage_domain)
-    for i in xrange(np):
+    system.ruby.clk_domain = SrcClockDomain(clock=options.ruby_clock,
+                                        voltage_domain=system.voltage_domain)
+    for i in range(np):
         ruby_port = system.ruby._cpu_ports[i]
 
         # Create the interrupt controller and connect its ports to Ruby
@@ -394,7 +394,7 @@ if options.ruby:
 else:
     MemClass = Simulation.setMemClass(options)
     system.membus = SystemXBar()
-    system.system_port = system.membus.slave
+    system.system_port = system.membus.cpu_side_ports
     CacheConfig.config_cache(options, system)
     MemConfig.config_mem(options, system)
 
