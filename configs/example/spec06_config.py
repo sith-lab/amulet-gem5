@@ -42,7 +42,7 @@
 #
 # "m5 test.py"
 
-import optparse
+import argparse
 import sys
 import os
 
@@ -123,18 +123,18 @@ def get_processes(options):
         return multiprocesses, 1
 
 
-parser = optparse.OptionParser()
+parser = argparse.ArgumentParser()
 Options.addCommonOptions(parser)
 Options.addSEOptions(parser)
 
-parser.add_option("-b", "--benchmark", type="string", default="", help="The SPEC benchmark to be loaded.")
-parser.add_option("--benchmark_stdout", type="string", default="", help="Absolute path for stdout redirection for the benchmark.")
-parser.add_option("--benchmark_stderr", type="string", default="", help="Absolute path for stderr redirection for the benchmark.")
+parser.add_argument("-b", "--benchmark", type=str, default="", help="The SPEC benchmark to be loaded.")
+parser.add_argument("--benchmark_stdout", type=str, default="", help="Absolute path for stdout redirection for the benchmark.")
+parser.add_argument("--benchmark_stderr", type=str, default="", help="Absolute path for stderr redirection for the benchmark.")
 
 if '--ruby' in sys.argv:
     Ruby.define_options(parser)
 
-(options, args) = parser.parse_args()
+options = parser.parse_args()
 
 if args:
     print("Error: script doesn't take any positional arguments")
