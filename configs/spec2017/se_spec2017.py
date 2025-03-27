@@ -39,7 +39,7 @@
 # Simple test script
 #
 # "m5 test.py"
-
+import spec17_benchmarks
 import argparse
 import sys
 import os
@@ -66,7 +66,6 @@ from common.FileSystemConfig import config_filesystem
 from common.Caches import *
 from common.cpu2000 import *
 
-import spec06_benchmarks
 
 def get_processes(args):
     """Interprets provided args and returns a list of processes"""
@@ -123,7 +122,7 @@ def get_processes(args):
 parser = argparse.ArgumentParser()
 Options.addCommonOptions(parser)
 Options.addSEOptions(parser)
-
+#新增的内容
 parser.add_argument("-b", "--benchmark", type=str, default="", help="The SPEC benchmark to be loaded.")
 parser.add_argument("--benchmark_stdout", type=str, default="", help="Absolute path for stdout redirection for the benchmark.")
 parser.add_argument("--benchmark_stderr", type=str, default="", help="Absolute path for stderr redirection for the benchmark.")
@@ -170,105 +169,153 @@ numThreads = 1
 #     print("No workload specified. Exiting!\n", file=sys.stderr)
 #     sys.exit(1)
 if args.benchmark:
-    print('Selected SPEC_CPU2006 benchmark')
-    if args.benchmark == 'perlbench':
-        print('--> perlbench')
-        process = spec06_benchmarks.perlbench
-    elif args.benchmark == 'bzip2':
-        print('--> bzip2')
-        process = spec06_benchmarks.bzip2
-    elif args.benchmark == 'gcc':
-        print('--> gcc')
-        process = spec06_benchmarks.gcc
-    elif args.benchmark == 'bwaves':
-        print('--> bwaves')
-        process = spec06_benchmarks.bwaves
-    elif args.benchmark == 'gamess':
-        print('--> gamess')
-        process = spec06_benchmarks.gamess
-    elif args.benchmark == 'mcf':
-        print('--> mcf')
-        process = spec06_benchmarks.mcf
-    elif args.benchmark == 'milc':
-        print('--> milc')
-        process = spec06_benchmarks.milc
-    elif args.benchmark == 'zeusmp':
-        print('--> zeusmp')
-        process = spec06_benchmarks.zeusmp
-    elif args.benchmark == 'gromacs':
-        print('--> gromacs')
-        process = spec06_benchmarks.gromacs
-    elif args.benchmark == 'cactusADM':
-        print('--> cactusADM')
-        process = spec06_benchmarks.cactusADM
-    elif args.benchmark == 'leslie3d':
-        print('--> leslie3d')
-        process = spec06_benchmarks.leslie3d
-    elif args.benchmark == 'namd':
-        print('--> namd')
-        process = spec06_benchmarks.namd
-    elif args.benchmark == 'gobmk':
-        print('--> gobmk')
-        process = spec06_benchmarks.gobmk
-    elif args.benchmark == 'dealII':
-        print('--> dealII')
-        process = spec06_benchmarks.dealII
-    elif args.benchmark == 'soplex':
-        print('--> soplex')
-        process = spec06_benchmarks.soplex
-    elif args.benchmark == 'povray':
-        print('--> povray')
-        process = spec06_benchmarks.povray
-    elif args.benchmark == 'calculix':
-        print('--> calculix')
-        process = spec06_benchmarks.calculix
-    elif args.benchmark == 'hmmer':
-        print('--> hmmer')
-        process = spec06_benchmarks.hmmer
-    elif args.benchmark == 'sjeng':
-        print('--> sjeng')
-        process = spec06_benchmarks.sjeng
-    elif args.benchmark == 'GemsFDTD':
-        print('--> GemsFDTD')
-        process = spec06_benchmarks.GemsFDTD
-    elif args.benchmark == 'libquantum':
-        print('--> libquantum')
-        process = spec06_benchmarks.libquantum
-    elif args.benchmark == 'h264ref':
-        print('--> h264ref')
-        process = spec06_benchmarks.h264ref
-    elif args.benchmark == 'tonto':
-        print('--> tonto')
-        process = spec06_benchmarks.tonto
-    elif args.benchmark == 'lbm':
-        print('--> lbm')
-        process = spec06_benchmarks.lbm
-    elif args.benchmark == 'omnetpp':
-        print('--> omnetpp')
-        process = spec06_benchmarks.omnetpp
-    elif args.benchmark == 'astar':
-        print('--> astar')
-        process = spec06_benchmarks.astar
-    elif args.benchmark == 'wrf':
-        print('--> wrf')
-        process = spec06_benchmarks.wrf
-    elif args.benchmark == 'sphinx3':
-        print('--> sphinx3')
-        process = spec06_benchmarks.sphinx3
-    elif args.benchmark == 'xalancbmk':
-        print('--> xalancbmk')
-        process = spec06_benchmarks.xalancbmk
-    elif args.benchmark == 'specrand_i':
-        print('--> specrand_i')
-        process = spec06_benchmarks.specrand_i
-    elif args.benchmark == 'specrand_f':
-        print('--> specrand_f')
-        process = spec06_benchmarks.specrand_f
+    print('Selected SPEC_CPU2017 benchmark')
+    if args.benchmark == 'perlbench_r':
+        print('--> perlbench_r')
+        process = spec17_benchmarks.perlbench_r
+    elif args.benchmark == 'perlbench_s':
+        print('--> perlbench_s')
+        process = spec17_benchmarks.perlbench_s
+    elif args.benchmark == 'gcc_r':
+        print('--> gcc_r')
+        process = spec17_benchmarks.gcc_r
+    elif args.benchmark == 'gcc_s':
+        print('--> gcc_s')
+        process = spec17_benchmarks.gcc_s
+    elif args.benchmark == 'mcf_r':
+        print('--> mcf_r')
+        process = spec17_benchmarks.mcf_r
+    elif args.benchmark == 'mcf_s':
+        print('--> mcf_s')
+        process = spec17_benchmarks.mcf_s
+    elif args.benchmark == 'omnetpp_r':
+        print('--> omnetpp_r')
+        process = spec17_benchmarks.omnetpp_r
+    elif args.benchmark == 'omnetpp_s':
+        print('--> omnetpp_s')
+        process = spec17_benchmarks.omnetpp_s
+    elif args.benchmark == 'xalancbmk_r':
+        print('--> xalancbmk_r')
+        process = spec17_benchmarks.xalancbmk_r
+    elif args.benchmark == 'xalancbmk_s':
+        print('--> xalancbmk_s')
+        process = spec17_benchmarks.xalancbmk_s
+    elif args.benchmark == 'x264_r':
+        print('--> x264_r')
+        process = spec17_benchmarks.x264_r
+    elif args.benchmark == 'x264_s':
+        print('--> x264_s')
+        process = spec17_benchmarks.x264_s
+    elif args.benchmark == 'deepsjeng_r':
+        print('--> deepsjeng_r')
+        process = spec17_benchmarks.deepsjeng_r
+    elif args.benchmark == 'deepsjeng_s':
+        print('--> deepsjeng_s')
+        process = spec17_benchmarks.deepsjeng_s
+    elif args.benchmark == 'leela_r':
+        print('--> leela_r')
+        process = spec17_benchmarks.leela_r
+    elif args.benchmark == 'leela_s':
+        print('--> leela_s')
+        process = spec17_benchmarks.leela_s
+    elif args.benchmark == 'exchange2_r':
+        print('--> exchange2_r')
+        process = spec17_benchmarks.exchange2_r
+    elif args.benchmark == 'exchange2_s':
+        print('--> exchange2_s')
+        process = spec17_benchmarks.exchange2_s
+    elif args.benchmark == 'xz_r':
+        print('--> xz_r')
+        process = spec17_benchmarks.xz_r
+    elif args.benchmark == 'xz_s':
+        print('--> xz_s')
+        process = spec17_benchmarks.xz_s
+    elif args.benchmark == 'bwaves_r':
+        print('--> bwaves_r')
+        process = spec17_benchmarks.bwaves_r
+    elif args.benchmark == 'bwaves_s':
+        print('--> bwaves_s')
+        process = spec17_benchmarks.bwaves_s
+    elif args.benchmark == 'cactuBSSN_r':
+        print('--> cactuBSSN_r')
+        process = spec17_benchmarks.cactuBSSN_r
+    elif args.benchmark == 'cactuBSSN_s':
+        print('--> cactuBSSN_s')
+        process = spec17_benchmarks.cactuBSSN_s
+    elif args.benchmark == 'namd_r':
+        print('--> namd_r')
+        process = spec17_benchmarks.namd_r
+    elif args.benchmark == 'parest_r':
+        print('--> parest_r')
+        process = spec17_benchmarks.parest_r
+    elif args.benchmark == 'povray_r':
+        print('--> povray_r')
+        process = spec17_benchmarks.povray_r
+    elif args.benchmark == 'lbm_r':
+        print('--> lbm_r')
+        process = spec17_benchmarks.lbm_r
+    elif args.benchmark == 'lbm_s':
+        print('--> lbm_s')
+        process = spec17_benchmarks.lbm_s
+    elif args.benchmark == 'wrf_r':
+        print('--> wrf_r')
+        process = spec17_benchmarks.wrf_r
+    elif args.benchmark == 'wrf_s':
+        print('--> wrf_s')
+        process = spec17_benchmarks.wrf_s
+    elif args.benchmark == 'blender_r':
+        print('--> blender_r')
+        process = spec17_benchmarks.blender_r
+    elif args.benchmark == 'cam4_r':
+        print('--> cam4_r')
+        process = spec17_benchmarks.cam4_r
+    elif args.benchmark == 'cam4_s':
+        print('--> cam4_s')
+        process = spec17_benchmarks.cam4_s
+    elif args.benchmark == 'pop2_s':
+        print('--> pop2_s')
+        process = spec17_benchmarks.pop2_s
+    elif args.benchmark == 'imagick_r':
+        print('--> imagick_r')
+        process = spec17_benchmarks.imagick_r
+    elif args.benchmark == 'imagick_s':
+        print('--> imagick_s')
+        process = spec17_benchmarks.imagick_s
+    elif args.benchmark == 'nab_r':
+        print('--> nab_r')
+        process = spec17_benchmarks.nab_r
+    elif args.benchmark == 'nab_s':
+        print('--> nab_s')
+        process = spec17_benchmarks.nab_s
+    elif args.benchmark == 'fotonik3d_r':
+        print('--> fotonik3d_r')
+        process = spec17_benchmarks.fotonik3d_r
+    elif args.benchmark == 'fotonik3d_s':
+        print('--> fotonik3d_s')
+        process = spec17_benchmarks.fotonik3d_s
+    elif args.benchmark == 'roms_r':
+        print('--> roms_r')
+        process = spec17_benchmarks.roms_r
+    elif args.benchmark == 'roms_s':
+        print('--> roms_s')
+        process = spec17_benchmarks.roms_s
+    elif args.benchmark == 'specrand_fs':
+        print('--> specrand_fs')
+        process = spec17_benchmarks.specrand_fs
+    elif args.benchmark == 'specrand_fr':
+        print('--> specrand_fr')
+        process = spec17_benchmarks.specrand_fr
+    elif args.benchmark == 'specrand_is':
+        print('--> specrand_is')
+        process = spec17_benchmarks.specrand_is
+    elif args.benchmark == 'specrand_ir':
+        print('--> specrand_ir')
+        process = spec17_benchmarks.specrand_ir
     else:
-        print ("No recognized SPEC2006 benchmark selected! Exiting.")
+        print("No recognized SPEC2006 benchmark selected! Exiting.")
         sys.exit(1)
 else:
-    print >> sys.stderr, "Need --benchmark switch to specify SPEC CPU2006 workload. Exiting!\n"
+    print >> sys.stderr, "Need --benchmark switch to specify workload. Exiting!\n"
     sys.exit(1)
 
 # Set process stdout/stderr
