@@ -242,10 +242,13 @@ echo "" | tee -a $SCRIPT_OUT
 echo "--------- Here goes nothing! Starting gem5! ------------" | tee -a $SCRIPT_OUT
 echo "" | tee -a $SCRIPT_OUT
 echo "" | tee -a $SCRIPT_OUT
+
+# SPEC_CONFIG=$GEM5_PATH/configs/example/spec06_config.py
+SPEC_CONFIG=$GEM5_PATH/configs/example/spec2017_config.py
  
 # Actually launch gem5!
 $GEM5_PATH/build/X86/gem5.opt \
-	--outdir=$OUTPUT_DIR $GEM5_PATH/configs/example/spec06_config.py \
+	--outdir=$OUTPUT_DIR $SPEC_CONFIG \
 	--benchmark=$BENCHMARK --benchmark_stdout=$OUTPUT_DIR/$BENCHMARK.out \
 	--benchmark_stderr=$OUTPUT_DIR/$BENCHMARK.err \
 	--checkpoint-dir=$CKPT_OUT_DIR \
