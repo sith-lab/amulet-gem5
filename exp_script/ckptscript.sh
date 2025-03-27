@@ -54,10 +54,10 @@ BENCHMARK=$1                    # Benchmark name, e.g. bzip2
 SCHEME=unsafebaseline  # Use to progress faster until measuring point
 
 # Checkpoint configuration
-#CHECKPOINT_CONFIG="o3_4Gmem_1000"
-#INST_TAKE_CHECKPOINT=1000
-CHECKPOINT_CONFIG="o3_4Gmem_100K"
-INST_TAKE_CHECKPOINT=100000
+CHECKPOINT_CONFIG="o3_4Gmem_1000"
+INST_TAKE_CHECKPOINT=1000
+# CHECKPOINT_CONFIG="o3_4Gmem_100K"
+# INST_TAKE_CHECKPOINT=100000
 # CHECKPOINT_CONFIG="o3_4Gmem_10B"
 # INST_TAKE_CHECKPOINT=10000000000
 
@@ -253,10 +253,11 @@ $GEM5_PATH/build/X86/gem5.opt \
 	--outdir=$OUTPUT_DIR $SPEC_CONFIG \
 	--benchmark=$BENCHMARK --benchmark_stdout=$OUTPUT_DIR/$BENCHMARK.out \
 	--benchmark_stderr=$OUTPUT_DIR/$BENCHMARK.err \
-	--num-cpus=1 --mem-size=8192MB \
+        --num-cpus=1 \
+        --mem-size=8192MB \
+    --cpu-type=TimingSimpleCPU --scheme=$SCHEME \
 	--checkpoint-dir=$CKPT_OUT_DIR \
 	--take-checkpoint=$INST_TAKE_CHECKPOINT --at-instruction \
-	--cpu-type=AtomicSimpleCPU --scheme=$SCHEME \
-	 --maxinsts=$MAX_INSTS \
-	 | tee -a $SCRIPT_OUT
+    --maxinsts=$MAX_INSTS \
+    | tee -a $SCRIPT_OUT
 

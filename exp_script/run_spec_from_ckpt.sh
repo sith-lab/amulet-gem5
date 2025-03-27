@@ -54,10 +54,10 @@ BENCHMARK=$1                    # Benchmark name, e.g. bzip2
 SCHEME=$2
 
 # Checkpoint configuration
-#CHECKPOINT_CONFIG="o3_4Gmem_1000"
-#INST_TAKE_CHECKPOINT=1000
-CHECKPOINT_CONFIG="o3_4Gmem_100K"
-INST_TAKE_CHECKPOINT=100000
+CHECKPOINT_CONFIG="o3_4Gmem_1000"
+INST_TAKE_CHECKPOINT=1000
+# CHECKPOINT_CONFIG="o3_4Gmem_100K"
+# INST_TAKE_CHECKPOINT=100000
 # CHECKPOINT_CONFIG="o3_4Gmem_10B"
 # INST_TAKE_CHECKPOINT=10000000000
 
@@ -252,20 +252,21 @@ $GEM5_PATH/build/X86/gem5.opt \
 	--benchmark_stderr=$OUTPUT_DIR/$BENCHMARK.err \
 	--checkpoint-dir=$CKPT_OUT_DIR \
 	--checkpoint-restore=$INST_TAKE_CHECKPOINT --at-instruction \
-    --num-cpus=1 \
-    --bp-type=BiModeBP \
-    --caches \
-    --l2cache \
-    --cacheline=64 \
-    --num-l2cache=1 \
-    --l1i_size=64kB \
-    --l1i_assoc=4 \
-    --l1d_size=16kB \
-    --l1d_assoc=4 \
-    --l2_size=256kB \
-    --l2_assoc=4 \
-    --mem-size=8192MB \
-    --cpu-type=DerivO3CPU\
-    --scheme=Speclfb \
+    --restore-with-cpu=TimingSimpleCPU \
+        --num-cpus=1 \
+        --mem-size=8192MB \
+        --bp-type=BiModeBP \
+        --caches \
+        --l2cache \
+        --cacheline=64 \
+        --num-l2cache=1 \
+        --l1i_size=64kB \
+        --l1i_assoc=4 \
+        --l1d_size=16kB \
+        --l1d_assoc=4 \
+        --l2_size=256kB \
+        --l2_assoc=4 \
+    --cpu-type=DerivO3CPU \
+    --scheme=$SCHEME \
   --maxinsts=1000000000 | tee -a $SCRIPT_OUT
 
