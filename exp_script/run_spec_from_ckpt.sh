@@ -54,6 +54,8 @@ BENCHMARK=$1                    # Benchmark name, e.g. bzip2
 SCHEME=$2
 
 # Checkpoint configuration
+#CHECKPOINT_CONFIG="o3_4Gmem_1000"
+#INST_TAKE_CHECKPOINT=1000
 #CHECKPOINT_CONFIG="o3_4Gmem_100K"
 #INST_TAKE_CHECKPOINT=100000
 CHECKPOINT_CONFIG="o3_4Gmem_10B"
