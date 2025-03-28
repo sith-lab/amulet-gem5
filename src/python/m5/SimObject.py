@@ -630,9 +630,6 @@ class SimObject(object, metaclass=MetaSimObject):
     ]
 
     cxx_param_exports = [PyBindProperty("name")]
-    
-    micro_component = Param.Bool(False, "Flag to indicate whether a component stores micro-architectural state")
-    cache_component = Param.Bool(False, "Flag to indicate whether a component is a cache need to be dumped")
 
     @cxxMethod
     def loadState(self, cp):

@@ -190,8 +190,6 @@ def addNoISAOptions(parser):
     parser.add_argument("--l2_assoc", type=int, default=8)
     parser.add_argument("--l3_assoc", type=int, default=16)
     parser.add_argument("--cacheline_size", type=int, default=64)
-    parser.add_argument("--DTB_entries", type=int,
-        help = "Number of entries in data TLB")
 
     # Enable Ruby
     parser.add_argument("--ruby", action="store_true")
@@ -234,11 +232,6 @@ def addNoISAOptions(parser):
         "Direct parameters of the root object are not accessible, "
         "only parameters of its children.",
     )
-    
-    # [Revizor] Used for profiling gem5+Revizor to see how much time is spent
-    # actually running the test case
-    parser.add_argument("--profile", action="store_true", default=False,
-        help="Print simulation time.")
 
 
 # Add common options that assume a non-NULL ISA.
@@ -544,7 +537,7 @@ def addCommonOptions(parser):
             "--scheme", 
             default=None, 
             action="store", 
-            choices=["unsafebaseline", "Speclfb"],
+            choices=["unsafebaseline", "Speclfb","SCSGuardian"],
             help="choose baseline or defense design"
             )
 
@@ -607,12 +600,6 @@ def addCommonOptions(parser):
         choices=ObjectList.cpu_list.get_names(),
         help="cpu type for restoring from a checkpoint",
     )
-    parser.add_argument("--save-micro-state", action="store_true", default=False,
-                      help="save ONLY the micro architectural state, of ONLY the micro architectural components")
-    parser.add_argument("--dump-caches", action="store_true", default=False,
-                      help="dump caches tags into dmp folder")
-    parser.add_argument("--dump-stats", action="store_true", default=False,
-                      help="dump statistics")
 
     # CPU Switching - default switch model goes from a checkpoint
     # to a timing simple CPU with caches to warm up, then to detailed CPU for

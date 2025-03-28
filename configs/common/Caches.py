@@ -54,16 +54,16 @@ class L1Cache(Cache):
     tag_latency = 2
     data_latency = 2
     response_latency = 2
-    lfb_latency = 2
+    lfb_latency = 1
     mshrs = 4
     tgts_per_mshr = 20
-    micro_component = True
+
 
 class L1_ICache(L1Cache):
     is_read_only = True
     # Writeback clean lines as well
     writeback_clean = True
-    micro_component = True
+
 
 class L1_DCache(L1Cache):
     pass
@@ -78,7 +78,7 @@ class L2Cache(Cache):
     mshrs = 20
     tgts_per_mshr = 12
     write_buffers = 8
-    micro_component = True
+
 
 class IOCache(Cache):
     assoc = 8
@@ -89,7 +89,7 @@ class IOCache(Cache):
     mshrs = 20
     size = "1kB"
     tgts_per_mshr = 12
-    micro_component = True
+
 
 class PageTableWalkerCache(Cache):
     assoc = 2
@@ -100,7 +100,6 @@ class PageTableWalkerCache(Cache):
     mshrs = 10
     size = "1kB"
     tgts_per_mshr = 12
-    micro_component = True
 
     # the x86 table walker actually writes to the table-walker cache
     if get_runtime_isa() in [ISA.X86, ISA.RISCV]:

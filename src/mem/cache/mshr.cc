@@ -402,7 +402,6 @@ bool
 MSHR::findTarget(PacketPtr pkt)
 {
         auto it=targets.begin();
-        assert(it->pkt->req->hasPC());
      while (it != targets.end()) {
         DPRINTF(Speclfb,"mshr:the target  "
             "pc  isRequest? %x %d\n",it->pkt->req->getPC(),pkt->isRequest());
@@ -678,8 +677,6 @@ MSHR::promoteUnsafeTargets(){
     //     }
     //  }
      PacketPtr def_tgt_pkt = unsafeTargets.front().pkt;
-
-     assert(def_tgt_pkt->req->hasPC());
    
     if(def_tgt_pkt->isRead()&&!update_unsafestate(def_tgt_pkt->req->getPC())){
      DPRINTF(Speclfb,"mshr:the load could be reloaded"

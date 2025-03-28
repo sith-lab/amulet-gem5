@@ -50,9 +50,6 @@
 #include "debug/ExecAll.hh"
 #include "debug/FmtTicksOff.hh"
 #include "enums/OpClass.hh"
-#include "debug/ExecX86Regs.hh"
-#include "cpu/o3/cpu.hh"
-#include "arch/x86/regs/int.hh"
 
 namespace gem5
 {
@@ -148,28 +145,6 @@ ExeTracerRecord::traceInst(const StaticInstPtr &inst, bool ran)
     trace::getDebugLogger()->dprintf_flag(
         when, thread->getCpuPtr()->name(), "ExecEnable", "%s",
         outs.str().c_str());
-
-    gem5::o3::CPU *dcpu = dynamic_cast<gem5::o3::CPU *>(thread->getCpuPtr());
-    if (debug::ExecX86Regs && dcpu) {
-        outs << std::hex << std::showbase
-            << " rax=" << dcpu->getArchReg(X86ISA::int_reg::Rax, 0)
-            << " rbx=" << dcpu->getArchReg(X86ISA::int_reg::Rbx, 0)
-            << " rcx=" << dcpu->getArchReg(X86ISA::int_reg::Rcx, 0)
-            << " rsp=" << dcpu->getArchReg(X86ISA::int_reg::Rsp, 0)
-            << " rbp=" << dcpu->getArchReg(X86ISA::int_reg::Rbp, 0)
-            << " rsi=" << dcpu->getArchReg(X86ISA::int_reg::Rsi, 0)
-            << " rdi=" << dcpu->getArchReg(X86ISA::int_reg::Rdi, 0)
-            << " r8="  << dcpu->getArchReg(X86ISA::int_reg::R8, 0)
-            << " r9="  << dcpu->getArchReg(X86ISA::int_reg::R9, 0)
-            << " r10="  << dcpu->getArchReg(X86ISA::int_reg::R10, 0)
-            << " r11="  << dcpu->getArchReg(X86ISA::int_reg::R11, 0)
-            << " r12="  << dcpu->getArchReg(X86ISA::int_reg::R12, 0)
-            << " r13="  << dcpu->getArchReg(X86ISA::int_reg::R13, 0)
-            << " r14="  << dcpu->getArchReg(X86ISA::int_reg::R14, 0)
-            << " r15="  << dcpu->getArchReg(X86ISA::int_reg::R15, 0)
-            << std::endl;
-    }
-
 }
 
 void

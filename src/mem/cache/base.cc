@@ -116,8 +116,7 @@ BaseCache::BaseCache(const BaseCacheParams &p, unsigned blk_size)
       missCount(p.max_miss_count),
       addrRanges(p.addr_ranges.begin(), p.addr_ranges.end()),
       system(p.system),
-      stats(*this),
-      num_sets(p.size / (p.assoc * blk_size))
+      stats(*this)
 {
     // the MSHR queue has no reserve entries as we check the MSHR
     // queue on every single allocation, whereas the write queue has
@@ -186,7 +185,7 @@ BaseCache::CacheResponsePort::processSendRetry()
 }
 
 Addr
-BaseCache::regenerateBlkAddr(CacheBlk* blk) const
+BaseCache::regenerateBlkAddr(CacheBlk* blk)
 {
     if (blk != tempBlock) {
         return tags->regenerateBlkAddr(blk);
@@ -498,14 +497,12 @@ BaseCache::recvTimingReq(PacketPtr pkt)
         DPRINTF(Speclfb,"[speclfb]%d %d \n",wasHitUSL,pkt->req->isUSL());
         if(!wasHitUSL){
             if(pkt->req->isUSL()){
-                assert(pkt->req->hasPC());
                 DPRINTF(Speclfb,"wrong  %x\n",pkt->req->getPC());
                 pkt->req->clearUnsafe();
             }
         }
          if (wasHitUSL) {
             if (satisfied){
-            assert(pkt->req->hasPC());
             DPRINTF(Speclfb,"HUSL %x \n",pkt->req->getPC());
             blk->setVictimAccess();
             DPRINTF(Speclfb,"victim is %x,%x,%d\n",blk->getTag(),blk->getSet()<<6,blk->getSet());
@@ -513,7 +510,7 @@ BaseCache::recvTimingReq(PacketPtr pkt)
             }
             else {
                 assert(!pkt->req->isHit_USL());
-                assert(pkt->req->hasPC());
+
                 DPRINTF(Speclfb,"MUSL %x \n",pkt->req->getPC());
 
                 return;
@@ -548,16 +545,11 @@ BaseCache::recvTimingReq(PacketPtr pkt)
 
         handleTimingReqHit(pkt, blk, request_time);
     } else {
-    if(pkt->req->hasPC()){
-        DPRINTF(Speclfb, "[speclfb] now miss pc %x\n",
-                pkt->req->getPC());
-    } else {
-        DPRINTF(Speclfb, "[speclfb] now miss pc ---- \n");
-    }
+ DPRINTF(Speclfb, "[speclfb] now miss pc %x\n",
+            pkt->req->getPC());
     bool foundBlock = false;
 for (auto it = refillBlocks.begin(); it != refillBlocks.end(); ++it) {
     const auto& reFillBlockInfo = *it;
-    assert(pkt->req->hasPC());
      DPRINTF(Speclfb, "[speclfb]wait for refill pc vs now pc %x %x\n",
                   reFillBlockInfo.pc,pkt->req->getPC());
          
@@ -565,7 +557,7 @@ for (auto it = refillBlocks.begin(); it != refillBlocks.end(); ++it) {
         CacheBlk *refillblk;
         foundBlock =true;
         assert(pkt->isRead());
-        assert(pkt->req->hasPC());
+
         DPRINTF(Speclfb, "now it could be reloaded into cache from lfb %x\n",
                 pkt->req->getPC());
 
@@ -598,12 +590,8 @@ for (auto it = refillBlocks.begin(); it != refillBlocks.end(); ++it) {
     }
 }
 if(!foundBlock){
-    if(pkt->req->hasPC()){
-        DPRINTF(Speclfb, "[speclfb] didn't need refilling pc %x\n",
+     DPRINTF(Speclfb, "[speclfb] didn't need refilling pc %x\n",
             pkt->req->getPC());
-    } else {
-        DPRINTF(Speclfb, "[speclfb] didn't need refilling pc ---- \n");
-    }
         handleTimingReqMiss(pkt, blk, forward_time, request_time);
 
         ppMiss->notify(pkt);
@@ -727,7 +715,6 @@ BaseCache::recvTimingResp(PacketPtr pkt){
     // && name() == "system.cpu.dcache"
         
     if(pkt->isRead()&& !pkt->req->isHit_USL()&&pkt->req->isUSL()){
-        assert(pkt->req->hasPC());
     DPRINTF(Speclfb, "[speclfb]put request block of %x %s in lfb  \n",
                 pkt->req->getPC(),pkt->print());
 
@@ -1770,7 +1757,6 @@ BaseCache::access(PacketPtr pkt, CacheBlk *&blk, Cycles &lat,
     // &&name() == "system.cpu.dcache"
     if (pkt->req->isHit_USL()) {
         pkt->req->clearHitUSL();
-        assert(pkt->req->hasPC());
         DPRINTF(Speclfb,"there is a musl %x",pkt->req->getPC());
         incHitCount(pkt);
     }else{
@@ -2297,7 +2283,7 @@ BaseCache::invalidateVisitor(CacheBlk &blk)
                   "Expect things to break.\n");
 
     if (blk.isValid()) {
-        // assert(!blk.isSet(CacheBlk::DirtyBit));
+        assert(!blk.isSet(CacheBlk::DirtyBit));
         invalidateBlock(&blk);
     }
 }
@@ -2449,18 +2435,21 @@ BaseCache::sendWriteQueuePacket(WriteQueueEntry* wq_entry)
 void
 BaseCache::serialize(CheckpointOut &cp) const
 {
-    std::vector<Addr> addresses = {};
-    tags->forEachBlk([&](CacheBlk &blk) {
-        if (blk.isValid()) {
-            // Addr blk_addr = regenerateBlkAddr(&blk);
-            // DPRINTF(Speclfb,"victim is %x,%x,%d\n",blk->getTag(),blk->getSet()<<6,blk->getSet());
-            Addr phys_addr = (Addr) blk.getTag() * (Addr) blkSize * (Addr) num_sets + (Addr) blk.getSet() * (Addr) blkSize;
-            DPRINTF(Speclfb,"[speclfb] serialize: phys_addr %#x <= (Tag %x * blkSize %x * num_sets %x) + (Set %x * blkSize %x) \n", 
-                phys_addr, (Addr) blk.getTag(), (Addr) blkSize, (Addr) num_sets, (Addr) blk.getSet(), (Addr) blkSize);
-            addresses.push_back(phys_addr);
-        }
-    });
-    SERIALIZE_CONTAINER(addresses);
+    bool dirty(isDirty());
+
+    if (dirty) {
+        warn("*** The cache still contains dirty data. ***\n");
+        warn("    Make sure to drain the system using the correct flags.\n");
+        warn("    This checkpoint will not restore correctly " \
+             "and dirty data in the cache will be lost!\n");
+    }
+
+    // Since we don't checkpoint the data in the cache, any dirty data
+    // will be lost when restoring from a checkpoint of a system that
+    // wasn't drained properly. Flag the checkpoint as invalid if the
+    // cache contains dirty data.
+    bool bad_checkpoint(dirty);
+    SERIALIZE_SCALAR(bad_checkpoint);
 }
 
 void

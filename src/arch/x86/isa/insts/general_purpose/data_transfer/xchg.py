@@ -39,9 +39,11 @@ microcode = """
 
 def macroop XCHG_R_R
 {
-    mov t1, t1, regm
-    mov regm, regm, reg
-    mov reg, reg, t1
+    # Use the xor trick instead of moves to reduce register pressure.
+    # This probably doesn't make much of a difference, but it's easy.
+    xor reg, reg, regm
+    xor regm, regm, reg
+    xor reg, reg, regm
 };
 
 def macroop XCHG_R_M

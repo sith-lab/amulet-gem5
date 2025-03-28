@@ -48,7 +48,6 @@
 #include "base/compiler.hh"
 #include "base/trace.hh"
 #include "debug/Branch.hh"
-#include "debug/AnalyseIPC.hh"
 
 namespace gem5
 {
@@ -297,8 +296,6 @@ BPredUnit::predict(const StaticInstPtr &inst, const InstSeqNum &seqNum,
         iPred->updateDirectionInfo(tid, orig_pred_taken);
     }
 
-    DPRINTF(AnalyseIPC, "analyse_ipc_violation: predicting branch at %#lx to go to %#lx\n", pc.instAddr(), target->instAddr());
-
     predHist[tid].push_front(predict_record);
 
     DPRINTF(Branch,
@@ -455,7 +452,6 @@ BPredUnit::squash(const InstSeqNum &squashed_sn,
         update(tid, (*hist_it).pc, actually_taken,
                pred_hist.front().bpHistory, true, pred_hist.front().inst,
                corr_target.instAddr());
-        DPRINTF(AnalyseIPC, "analyse_ipc_violation: Mispredicted branch at PC %#llx\n", (unsigned long long)hist_it->pc);
 
         if (iPred) {
             iPred->changeDirectionPrediction(tid,

@@ -154,16 +154,8 @@ def instantiate(ckpt_dir=None):
     if ckpt_dir:
         _drain_manager.preCheckpointRestore()
         ckpt = _m5.core.getCheckpoint(ckpt_dir)
-        # _m5.core.unserializeGlobals(ckpt);
-        load_failed = []
         for obj in root.descendants():
-            success = obj.loadState(ckpt)
-            if not success:
-                # Load failed meaning the checkpoint file probably didn't have the section
-                load_failed.append(obj)
-        # Since the load failed, optimistically re-initialize those objects
-        for obj in load_failed:
-            obj.initState()
+            obj.loadState(ckpt)
     else:
         for obj in root.descendants():
             obj.initState()
@@ -179,7 +171,6 @@ need_startup = True
 def simulate(*args, **kwargs):
     global need_startup
     global _instantiated
-    dump_stats = kwargs.pop('dump_stats', True)
 
     if not _instantiated:
         fatal("m5.instantiate() must be called before m5.simulate().")
@@ -192,8 +183,7 @@ def simulate(*args, **kwargs):
 
         # Python exit handlers happen in reverse order.
         # We want to dump stats last.
-        if dump_stats:
-            atexit.register(stats.dump)
+        atexit.register(stats.dump)
 
         # register our C++ exit callback function with Python
         atexit.register(_m5.core.doExitCleanup)
@@ -317,25 +307,17 @@ def memInvalidate(root):
     for obj in root.descendants():
         obj.memInvalidate()
 
-def checkpoint(dir, micro_state = False, ignore_caches = False):
+
+def checkpoint(dir):
     root = objects.Root.getInstance()
     if not isinstance(root, objects.Root):
         raise TypeError("Checkpoint must be called on a root object.")
 
-    # drain()
+    drain()
     memWriteback(root)
+    print("Writing checkpoint")
+    _m5.core.serializeAll(dir)
 
-    print("Writing Micro-checkpoint")
-    _m5.core.serializeAllMicro(dir, ignore_caches)
-    
-def dumpCaches(dir):
-    root = objects.Root.getInstance()
-    if not isinstance(root, objects.Root):
-        raise TypeError("Dumpcaches must be called on a root object.")
-    # drain()
-    memWriteback(root)
-    print("Dumping the caches")
-    _m5.core.serializeAllCaches(dir)
 
 def _changeMemoryMode(system, mode):
     if not isinstance(system, (objects.Root, objects.System)):

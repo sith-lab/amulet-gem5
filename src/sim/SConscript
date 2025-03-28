@@ -138,7 +138,6 @@ DebugFlag('WorkItems')
 DebugFlag('ClockDomain')
 DebugFlag('VoltageDomain')
 DebugFlag('DVFS')
-DebugFlag('DumpTLBWithCaches')
 DebugFlag('Vma')
 DebugFlag('PowerDomain')
 

@@ -75,12 +75,12 @@ class Root : public SimObject
 
     Time lastTime;
 
+    Globals globals;
+
     void timeSync();
     EventFunctionWrapper syncEvent;
 
   public:
-    Globals globals;
-
     /**
      * Use this function to get a pointer to the single Root object in the
      * simulation. This function asserts that such an object has actual been

@@ -87,8 +87,8 @@ Cache::satisfyRequest(PacketPtr pkt, CacheBlk *blk,
             assert(pkt->getSize() == blkSize);
             // special handling for coherent block requests from
             // upper-level caches
-            assert(pkt->req->hasPC());
-            DPRINTF(Speclfb,"this is caused by pc %x\n", pkt->req->getPC());
+
+            DPRINTF(Speclfb,"this is caused by pc %x", pkt->req->getPC());
 
             if (pkt->needsWritable()) {
                 // sanity check
@@ -425,7 +425,6 @@ Cache::recvTimingReq(PacketPtr pkt)
         // flag) is not providing writable (it is in Owned rather than
         // the Modified state), we know that there may be other Shared
         // copies in the system; go out and invalidate them all
-        assert(pkt->req->hasPC());
         DPRINTF(Speclfb,"1 this is caused by pc %x", pkt->req->getPC());
         assert(pkt->needsWritable() && !pkt->responderHadWritable());
 
@@ -803,10 +802,9 @@ Cache::serviceMSHRTargets(MSHR *mshr, const PacketPtr pkt, CacheBlk *blk)
                 // responseLatency is the latency of the return path
                 // from lower level caches/memory to an upper level cache or
                 // the core.
-            if(tgt_pkt->req->isLFB_RF()){
+            if(tgt_pkt->isLFB_RF()){
                 completion_time += clockEdge(LFBLatency) +
                 (transfer_offset ? pkt->payloadDelay : 0);
-                assert(pkt->req->hasPC());
                 DPRINTF(Speclfb, "The  refill load is"
                          "PC %s  %d \n ",
                         pkt->req->getPC(), LFBLatency);
@@ -843,10 +841,9 @@ Cache::serviceMSHRTargets(MSHR *mshr, const PacketPtr pkt, CacheBlk *blk)
                 // responseLatency is the latency of the return path
                 // from lower level caches/memory to an upper level cache or
                 // the core.
-            if(tgt_pkt->req->isLFB_RF()){
+            if(tgt_pkt->isLFB_RF()){
                 completion_time += clockEdge(LFBLatency) +
                  pkt->payloadDelay;
-                 assert(pkt->req->hasPC());
                 DPRINTF(Speclfb, "The  refill load is"
                          "PC %s  %d \n ",
                         pkt->req->getPC(), LFBLatency);
@@ -860,9 +857,8 @@ Cache::serviceMSHRTargets(MSHR *mshr, const PacketPtr pkt, CacheBlk *blk)
                 // Fake response on LockedRMW completion, see above.
                 // Since the data is already in the cache, we just use
                 // responseLatency with no extra penalties.
-             if(tgt_pkt->req->isLFB_RF()){
+             if(tgt_pkt->isLFB_RF()){
             completion_time = clockEdge(LFBLatency);
-            assert(pkt->req->hasPC());
             DPRINTF(Speclfb, "The  refill load is"
                          "PC %s  %d \n ",
                         pkt->req->getPC(), LFBLatency);
@@ -884,16 +880,14 @@ Cache::serviceMSHRTargets(MSHR *mshr, const PacketPtr pkt, CacheBlk *blk)
                 // not a cache fill, just forwarding response
                 // responseLatency is the latency of the return path
                 // from lower level cahces/memory to the core.
-                  if(tgt_pkt->req->isLFB_RF()){
+                  if(tgt_pkt->isLFB_RF()){
                 completion_time += clockEdge(LFBLatency) + pkt->payloadDelay;
-            assert(pkt->req->hasPC());
             DPRINTF(Speclfb, "The  refill load is"
                          "PC %s  %d \n ",
                         pkt->req->getPC(), LFBLatency);
             }else{
                 completion_time += clockEdge(responseLatency) +
                     pkt->payloadDelay;
-                assert(pkt->req->hasPC());
              DPRINTF(Speclfb, "The unrefill load is"
                          "PC %s  %d \n ",
                         pkt->req->getPC(), responseLatency);
@@ -903,7 +897,6 @@ Cache::serviceMSHRTargets(MSHR *mshr, const PacketPtr pkt, CacheBlk *blk)
                         // sanity check
                         assert(pkt->matchAddr(tgt_pkt));
                         assert(pkt->getSize() >= tgt_pkt->getSize());
-                        assert(pkt->req->hasPC());
                         DPRINTF(Speclfb, "The safe load is"
                          "PC %x  %d \n ",
                         pkt->req->getPC(), pkt->hasData());

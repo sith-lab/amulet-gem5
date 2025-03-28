@@ -175,15 +175,8 @@ if args.smt and args.num_cpus > 1:
 
 np = args.num_cpus
 mp0_path = multiprocesses[0].executable
-
-cpu_params = {}
-if args.DTB_entries is not None:
-    if get_runtime_isa() != ISA.X86:
-        fatal("FIXME: --DTB_entries is only implemented for X86")
-    cpu_params['dtb'] = X86TLB(size = args.DTB_entries, entry_type="data")
-
 system = System(
-    cpu=[CPUClass(cpu_id=i, **cpu_params) for i in range(np)],
+    cpu=[CPUClass(cpu_id=i) for i in range(np)],
     mem_mode=test_mem_mode,
     mem_ranges=[AddrRange(args.mem_size)],
     cache_line_size=args.cacheline_size,
@@ -295,6 +288,4 @@ if args.wait_gdb:
     system.workload.wait_for_remote_gdb = True
 
 root = Root(full_system=False, system=system)
-
-if __name__ == "__m5_main__":
-    Simulation.run(args, root, system, FutureClass)
+Simulation.run(args, root, system, FutureClass)

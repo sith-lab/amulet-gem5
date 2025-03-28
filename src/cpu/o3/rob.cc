@@ -49,7 +49,6 @@
 #include "debug/Fetch.hh"
 #include "debug/ROB.hh"
 #include "debug/Speclfb.hh"
-#include "debug/Squashed.hh"
 #include "params/BaseO3CPU.hh"
 
 namespace gem5
@@ -351,12 +350,6 @@ ROB::doSquash(ThreadID tid)
                 (*squashIt[tid])->threadNumber,
                 (*squashIt[tid])->pcState(),
                 (*squashIt[tid])->seqNum);
-        
-        DynInstPtr curr_inst = *squashIt[tid];
-        if(curr_inst->isLoad()){
-            DPRINTF(Squashed, "SQUASH FILTER - Squashing on load PC:%#x, [sn:%lli], Paddr:%#x, Vaddr:%#x\n", 
-                curr_inst->pcState().instAddr(), curr_inst->seqNum, curr_inst->physEffAddr, curr_inst->effAddr);
-        }
 
         // Mark the instruction as squashed, and ready to commit so that
         // it can drain out of the pipeline.

@@ -47,8 +47,6 @@
 #include "debug/IQ.hh"
 #include "debug/O3PipeView.hh"
 
-#include "debug/Squashed.hh"
-
 namespace gem5
 {
 
@@ -407,7 +405,6 @@ DynInst::initiateMemRead(Addr addr, unsigned size, Request::Flags flags,
                                const std::vector<bool> &byte_enable)
 {
     assert(byte_enable.size() == size);
-    DPRINTF(Squashed, "Reached read, addr: %#x\n", addr);
     return cpu->pushRequest(
         dynamic_cast<DynInstPtr::PtrType>(this),
         /* ld */ true, nullptr, size, addr, flags, nullptr, nullptr,

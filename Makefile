@@ -1,7 +1,6 @@
 GEM5_SIMULATOR_RISCV 	 = 	./build/RISCV/gem5.opt
 GEM5_SIMULATOR_X86 	 = 	./build/X86/gem5.opt
 
-# Cache, Speclfb, Squashed
 DEBUGFLAGS 		+= 	--debug-flags=Speclfb\
 			 		--debug-file=trace.out \
 
@@ -46,7 +45,7 @@ s4x86:
 	$(GEM5_SIMULATOR_X86) $(BOOMFLAGS) --cmd=./mycode/attack_src/spectre-attack-intel/bin/spectre-v4.x86
 #debug exemple，see the debug output in m5out/trace.out
 debugv1:
-	$(GEM5_SIMULATOR_X86) $(DEBUGFLAGS) $(BOOMFLAGS) --cmd=./mycode/attack_src/spectre-attack-intel/bin/spectre-v1.x86
+	$(GEM5_SIMULATOR_X86) $(DEBUGFLAGS) $(BOOMFLAGS) --cmd=./mycode/attack_src/spectre-attack-intel/bin/spectre-v1.x86 
 
 
 # build pipeview file
@@ -56,7 +55,7 @@ pipeview:
 
 # build gem5.opt
 riscv64:
-	python3 `which scons` -j`nproc` build/RISCV/gem5.opt
+	scons build/RISCV/gem5.opt
 
 x86-64:
-	python3 `which scons` -j`nproc` build/X86/gem5.opt --ignore-style
+	scons build/X86/gem5.opt

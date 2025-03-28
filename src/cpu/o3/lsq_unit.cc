@@ -53,9 +53,6 @@
 #include "debug/LSQUnit.hh"
 #include "debug/O3PipeView.hh"
 #include "debug/Speclfb.hh"
-
-#include "debug/Squashed.hh"
-
 #include "mem/packet.hh"
 #include "mem/request.hh"
 #include "base/unsafe_insqueue.hh"
@@ -809,28 +806,23 @@ LSQUnit::commitStores(InstSeqNum &youngest_inst)
 //     BaseCache::recvsafeTimingResp(pkt);
 //         }
 //  [speclfb]add
-void LSQUnit::updateSafeState() {
-    Unsafe rob_unsafe;
+void
+LSQUnit::updateSafeState()
+
+{
+     Unsafe rob_unsafe;
     auto iter = loadQueue.begin();
 
     // int load_idx = loadQueue.front();
 
-    while (++iter != loadQueue.end() &&iter->instruction()) {
-    //while ( (iter != loadQueue.end()) && iter->instruction()) {
-
+    while (++iter != loadQueue.end()&&iter->instruction()) {
         DynInstPtr inst = iter->instruction();
-        DPRINTF(Speclfb, "Checking updateSafeState "
-                            "inst [sn:%lli] PC %x\n",
-                        inst->seqNum, inst->pcState().instAddr());
-	
-        if (inst->isPrevBrsResolved()){
-	        DPRINTF(Speclfb, "Checking updateSafeState "
-                            "inst [sn:%lli] PC %x - Prior Brs Resolved\n",
-                        inst->seqNum, inst->pcState().instAddr());
+    
+           if (inst->isPrevBrsResolved()){
 
                 if (inst->isCUSL()){
                     DPRINTF(Speclfb, "Set safe for "
-                            "inst [sn:%lli] PC %x\n",
+                            "inst [sn:%lli] sPC %x\n",
                         inst->seqNum, inst->pcState().instAddr());
 
                         inst->clearCUSL();
@@ -842,84 +834,82 @@ void LSQUnit::updateSafeState() {
                 //  rob_unsafe.unsafePCremove(inst->pcState().instAddr());
                 //  rob_unsafe.unsafeMUSLremove(inst->pcState().instAddr());
                 
-        }
-        else {
-
-	        DPRINTF(Speclfb, "Checking updateSafeState "
-		     "inst [sn:%lli] sPC %x - Prior Brs Not Resolved. isCUSL: %d, ismUSL-> %d \n",
-		     inst->seqNum, inst->pcState().instAddr(), inst->isCUSL(), inst->ismUSL());
-
-            if (!inst->isCUSL()){
-                DPRINTF(Speclfb, "Set unsafe for "
-                        "inst [sn:%lli] PC %x\n",
-                    inst->seqNum, inst->pcState().instAddr());
-
-                    inst->setCUSL();
+            }else {
                 
+                if (!inst->isCUSL()){
+                    DPRINTF(Speclfb, "Set unsafe for "
+                            "inst [sn:%lli] PC %x\n",
+                        inst->seqNum, inst->pcState().instAddr());
+
+                        inst->setCUSL();
+                 
+                }
+                if(!rob_unsafe.speclfb_check(inst->pcState().instAddr())){
+                    rob_unsafe.unsafePCadd(inst->pcState().instAddr());
+                }
+            
             }
-            if(!rob_unsafe.speclfb_check(inst->pcState().instAddr())){
-                rob_unsafe.unsafePCadd(inst->pcState().instAddr());
-            }
-        
-        }
-        
-        if (inst->isPrevStoreResolved()){
+            if (inst->isPrevStoreResolved()){
 
-            DPRINTF(Speclfb, "Checking updateSafeState "
-		     "inst [sn:%lli] sPC %x - Prior Stores Resolved. isCUSL: %d, ismUSL-> %d \n",
-		     inst->seqNum, inst->pcState().instAddr(), inst->isCUSL(), inst->ismUSL());
+                if (inst->ismUSL()){
+                    DPRINTF(Speclfb, "Set safe for "
+                            "store bypass load inst [sn:%lli] PC %x\n",
+                        inst->seqNum, inst->pcState().instAddr());
 
-            if (inst->ismUSL()){
-                DPRINTF(Speclfb, "Set safe for "
-                        "store bypass load inst [sn:%lli] PC %x\n",
-                    inst->seqNum, inst->pcState().instAddr());
+                        inst->clearmUSL();
 
-                    inst->clearmUSL();
 
-                    }
+                        }
                 //  rob_unsafe.unsafePCremove(inst->pcState().instAddr());
                 //  rob_unsafe.unsafeMUSLremove(inst->pcState().instAddr());
-            }
-        else {
+                
+            }else {
+                
+                if (!inst->ismUSL()){
+                    DPRINTF(Speclfb, "Set unsafe for "
+                            "store bypass load inst [sn:%lli] PC %x\n",
+                        inst->seqNum, inst->pcState().instAddr());
 
-            DPRINTF(Speclfb, "Checking updateSafeState "
-		     "inst [sn:%lli] sPC %x - Prior Stores Not Resolved. isCUSL: %d, ismUSL-> %d \n",
-		     inst->seqNum, inst->pcState().instAddr(), inst->isCUSL(), inst->ismUSL());
+                       inst->setmUSL();
+                 
+                }
+                if(!rob_unsafe.speclfb_check(inst->pcState().instAddr())){
+                    rob_unsafe.unsafePCadd(inst->pcState().instAddr());
+                }
+            
+            }
+                if (inst->isPrevNoUnsafe()){
 
-            if (!inst->ismUSL()){
-                DPRINTF(Speclfb, "Set unsafe for "
-                        "store bypass load inst [sn:%lli] PC %x\n",
-                    inst->seqNum, inst->pcState().instAddr());
-                    inst->setmUSL();
-            }
-            if(!rob_unsafe.speclfb_check(inst->pcState().instAddr())){
-                rob_unsafe.unsafePCadd(inst->pcState().instAddr());
-            }
-        }
+                if (inst->isreallyUnsafe()){
+                
 
-	    // reallyUnsafe init to  0
-	    // if no prior unsafe loads, 
-        if (inst->isPrevNoUnsafe()){
-	        // reallyUnsafe = 0.
-            if (inst->isreallyUnsafe()) {
-                inst->clearreallyUnsafe();
-		    }
-        }
-        else {
-	        // if prior unsafe loads exist: then, reallyUnsafe = 1	      
-            if (!inst->isreallyUnsafe()){                  
-                    inst->setreallyUnsafe();
+                        inst->clearreallyUnsafe();
+
+
+                        }
+                //  rob_unsafe.unsafePCremove(inst->pcState().instAddr());
+                //  rob_unsafe.unsafeMUSLremove(inst->pcState().instAddr());
+                
             }
-        }
-        if(!inst->isUnsafe()) {
-            if(inst->isSpeclfbStalled()){
-                inst->clearSpeclfbStalled();
+            else {
+                
+                if (!inst->isreallyUnsafe()){
+                  
+
+                        inst->setreallyUnsafe();
+                 
+                }
+            
             }
-            if(rob_unsafe.speclfb_check(inst->pcState().instAddr())) {
-                    rob_unsafe.unsafePCremove(inst->pcState().instAddr());
+
+            if(!inst->isUnsafe()){
+                           if(inst->isSpeclfbStalled()){
+                            inst->clearSpeclfbStalled();
+                        }
+                if(rob_unsafe.speclfb_check(inst->pcState().instAddr())){
+                       rob_unsafe.unsafePCremove(inst->pcState().instAddr());
+                    }
             }
-        }
-        //iter++;
     }
 }
 
@@ -1071,7 +1061,6 @@ LSQUnit::squash(const InstSeqNum &squashed_num)
     DPRINTF(LSQUnit, "Squashing until [sn:%lli]!"
             "(Loads:%i Stores:%i)\n", squashed_num, loadQueue.size(),
             storeQueue.size());
-    DPRINTF(Squashed, "Squashing from [sn:%lli]\n", squashed_num);
 
     while (loadQueue.size() != 0 &&
             loadQueue.back().instruction()->seqNum > squashed_num) {
@@ -1079,11 +1068,6 @@ LSQUnit::squash(const InstSeqNum &squashed_num)
                 "[sn:%lli]\n",
                 loadQueue.back().instruction()->pcState(),
                 loadQueue.back().instruction()->seqNum);
-
-        DynInstPtr ld_inst = loadQueue.back().instruction();
-        if(ld_inst->effAddrValid()){
-            DPRINTF(Squashed, "LSQUnit - Squashed Load: PC %#x, SQ: [sn:%lli], Paddr %#x, Vaddr %#x\n", ld_inst->pcState().instAddr(), ld_inst->seqNum, ld_inst->physEffAddr, ld_inst->effAddr);
-        }
 
         if (isStalled() && loadQueue.tail() == stallingLoadIdx) {
             stalled = false;
@@ -1163,11 +1147,6 @@ LSQUnit::squash(const InstSeqNum &squashed_num)
                 "idx:%i [sn:%lli]\n",
                 storeQueue.back().instruction()->pcState(),
                 storeQueue.tail(), storeQueue.back().instruction()->seqNum);
-        
-        DynInstPtr str_inst = storeQueue.back().instruction();
-        if(str_inst->effAddrValid()){
-            DPRINTF(Squashed, "LSQUnit - Squashed Store: PC %#x, SQ: [sn:%lli], Paddr %#x, Vaddr %#x\n", str_inst->pcState().instAddr(), str_inst->seqNum, str_inst->physEffAddr, str_inst->effAddr);
-        }
 
         // I don't think this can happen.  It should have been cleared
         // by the stalling load.
@@ -1367,6 +1346,7 @@ LSQUnit::trySendPacket(bool isLoad, PacketPtr data_pkt)
         if (!dcachePort->sendTimingReq(data_pkt)) {
         if(wasHitMUSL&&!data_pkt->req->isHit_USL()){
             ret = false;
+            data_pkt->setLFBfill();
          DPRINTF(Speclfb, "[speclfb]failed send caused by speclfb :pc %x\n",
        data_pkt->req->getPC());
             }else{
@@ -1765,7 +1745,6 @@ LSQUnit::read(LSQRequest *request, ssize_t load_idx)
     // If there's no forwarding case, then go access memory
     DPRINTF(LSQUnit, "Doing memory access for inst [sn:%lli] PC %s\n",
             load_inst->seqNum, load_inst->pcState());
-    DPRINTF(Squashed, "Attempting load request - PC %#x, SQ: [sn:%lli], Paddr %#x, Vaddr %#x\n", load_inst->pcState().instAddr(), load_inst->seqNum, request->mainReq()->getPaddr(), request->mainReq()->getVaddr());
 
     // Allocate memory if this is the first time a load is issued.
     if (!load_inst->memData) {
@@ -1803,28 +1782,24 @@ LSQUnit::read(LSQRequest *request, ssize_t load_idx)
     
     
     if (!request->isSent()){
-        // If wasHitUSL but no longer hit USL, then stall the inst
-        if(wasHitUSL&&!request->mainReq()->isHit_USL()){
-            DPRINTF(Speclfb, "[speclfb]add inst to speclfbStallInst [sn:%lli] PC %x\n",
-                            load_inst->seqNum, load_inst->pcState().instAddr());
-            DPRINTF(Squashed, "LFB Stall: wasHitUSL now stalled - PC %#x, SQ: [sn:%lli], Paddr %#x, Vaddr %#x\n", 
-                load_inst->pcState().instAddr(), load_inst->seqNum, request->mainReq()->getPaddr(), request->mainReq()->getVaddr());
-            load_inst->setSpeclfbStalled();
-            load_inst->setHasStalled();
-                        
-                //  iewStage->speclfbStallInst(load_inst);
-                //   request->_numOutstandingPackets=0;
-        }else{
-                DPRINTF(Squashed, "LFB Stall: blockMemInst - PC %#x, SQ: [sn:%lli], Paddr %#x, Vaddr %#x\n", 
-                    load_inst->pcState().instAddr(), load_inst->seqNum, request->mainReq()->getPaddr(), request->mainReq()->getVaddr());
-                iewStage->blockMemInst(load_inst);
-        }
-        // }
+    
+
+if(wasHitUSL&&!request->mainReq()->isHit_USL()){
+
+     DPRINTF(Speclfb, "[speclfb]add inst to speclfbStallInst [sn:%lli] PC %x\n",
+                     load_inst->seqNum, load_inst->pcState().instAddr());
+     load_inst->setSpeclfbStalled();
+    //  load_inst->setHasStalled();
+                    
+            //  iewStage->speclfbStallInst(load_inst);
+            //   request->_numOutstandingPackets=0;
+    }else{
+         iewStage->blockMemInst(load_inst);
+    }
+    // }
+
     }
 
-    Addr block_addr = request->mainReq()->getPaddr() & ~(Addr(64 - 1) );
-    DPRINTF(Squashed, "Successfully sent out load request - PC %#x, SQ: [sn:%lli], Paddr %#x, Vaddr %#x, block addr %#x\n", 
-        load_inst->pcState().instAddr(), load_inst->seqNum, request->mainReq()->getPaddr(), request->mainReq()->getVaddr(), block_addr);
     return NoFault;
 }
 
@@ -1838,9 +1813,6 @@ LSQUnit::write(LSQRequest *request, uint8_t *data, ssize_t store_idx)
             "[sn:%llu]\n",
             store_idx - 1, request->req()->getPaddr(), storeQueue.head() - 1,
             storeQueue[store_idx].instruction()->seqNum);
-    DynInstPtr store_inst = storeQueue[store_idx].instruction();
-    DPRINTF(Squashed, "Store request - PC %#x, SQ: [sn:%lli], Paddr %#x, Vaddr %#x\n", 
-        store_inst->pcState().instAddr(), store_inst->seqNum, request->req()->getPaddr(), request->req()->getVaddr());
 
     storeQueue[store_idx].setRequest(request);
     unsigned size = request->_size;

@@ -58,8 +58,6 @@
 #include "debug/Speclfb.hh"
 #include "debug/Writeback.hh"
 #include"debug/Speclfb.hh"
-#include "debug/Squashed.hh"
-#include "debug/AnalyseIPC.hh"
 #include "params/BaseO3CPU.hh"
 #include "base/unsafe_insqueue.hh"
 
@@ -457,19 +455,6 @@ LSQ::recvTimingResp(PacketPtr pkt)
         checkStaleTranslations();
     }
 
-    DPRINTF(LSQ, "Received D$ response for packet addr %#x, block addr %#x\n",
-            pkt->getAddr(), pkt->getBlockAddr(64));
-    DPRINTF(Speclfb, "[speclfb] isHit_USL %d, isUSL %d, wasStalled %d\n",
-            pkt->req->isHit_USL(), pkt->req->isUSL(), pkt->req->wasStalled());
-    char buf[32] = {0};
-    if (pkt->hasData() && pkt->getflags()) {
-        const uint8_t *data = pkt->getConstPtr<uint8_t>();
-        for (size_t i = 0; i < pkt->getSize() && i < 8; i++) {
-            sprintf(buf + 2 * i, "%02x", data[i]);              
-        }
-        DPRINTF(AnalyseIPC, "analyse_ipc_violation.py: info for sn=%d: data=%s\n", pkt->req->getReqInstSeqNum(), buf);
-    }
-
     return true;
 }
 
@@ -478,9 +463,6 @@ LSQ::recvTimingSnoopReq(PacketPtr pkt)
 {
     DPRINTF(LSQ, "received pkt for addr:%#x %s\n", pkt->getAddr(),
             pkt->cmdString());
-
-    // Can't really grab PC, packets aren't bound to one!
-    DPRINTF(Squashed, "Received D$ response for packet addr %#x, block addr %#x\n", pkt->getAddr(), pkt->getBlockAddr(64)); 
 
     // must be a snoop
     if (pkt->isInvalidate()) {
@@ -1001,15 +983,9 @@ LSQ::SingleDataRequest::initiateTranslation()
         _reqs.back()->taskId(_taskId);
         _inst->translationStarted(true);
         //[speclfb]
-
-	DPRINTF(Speclfb, "Initiating Translation "
-		"inst [sn:%lli] sPC %x - Prior Brs Not Resolved. isCUSL: %d. ismUSL: %d, isStore: %d. isUnsafe: %d, isreallyUnsafe: %d, isSquashed: %d \n",
-		_inst->seqNum, _inst->pcState().instAddr(), _inst->isCUSL(), _inst->ismUSL(), _inst->isStore(), _inst->isUnsafe(), _inst->isreallyUnsafe(), _inst->isSquashed());
-
         if(_inst->isUnsafe()&&!_inst->isStore()){
             _reqs.back()->setUnsafe();
             _reqs.back()->setHitUSL();
-	    
         }
        if(_inst->isHasStalled()&&!_inst->isStore()){
             _reqs.back()->setLFBfill();
@@ -1026,11 +1002,7 @@ LSQ::SingleDataRequest::initiateTranslation()
             }
         }
         
-	DPRINTF(Speclfb, "Finished Tx Init."
-		"inst [sn:%lli] sPC %x - . isReqUSL: %d \n",
-		_inst->seqNum, _inst->pcState().instAddr(), _reqs.back()->isUSL());
 
-	
         setState(State::Translation);
         flags.set(Flag::TranslationStarted);
 

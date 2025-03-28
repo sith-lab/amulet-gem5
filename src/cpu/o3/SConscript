@@ -70,7 +70,6 @@ if not env['CONF']['USE_NULL_ISA']:
     DebugFlag('StoreSet')
     DebugFlag('Writeback')
     DebugFlag('Speclfb')
-    DebugFlag('Squashed')
 
     CompoundFlag('O3CPUAll', [ 'Fetch', 'Decode', 'Rename', 'IEW', 'Commit',
         'IQ', 'ROB', 'FreeList', 'LSQ', 'LSQUnit', 'StoreSet', 'MemDepUnit',

@@ -130,7 +130,6 @@ class CheckpointIn
 
     // Filename for base checkpoint file within directory.
     static const char *baseFilename;
-    static const char *baseTagFilename;
 };
 
 /**
@@ -300,12 +299,6 @@ class Serializable
      * @ingroup api_serialize
      */
     static const std::string &currentSection();
-
-    static void serializeAll(const std::string &cpt_dir);
-    static void serializeAllCaches(const std::string &cpt_dir);
-    static void serializeAllCachesTo(std::ostream &outstream);
-    static std::string serializeAllCachesToString();
-    static void serializeAllMicro(const std::string &cpt_dir, bool ignore_caches);
 
     /**
      * Generate a checkpoint file so that the serialization can be routed to

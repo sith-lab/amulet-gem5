@@ -385,6 +385,7 @@ class DynInst : public ExecContext, public RefCounted
 
     /////////////////////// Checker //////////////////////
     // Need a copy of main request pointer to verify on writes.
+
     RequestPtr reqToVerify;
 
   public:
@@ -638,7 +639,7 @@ class DynInst : public ExecContext, public RefCounted
     
 
     bool isUnsafe(){
-      return !isSquashed() && ((isCUSL() || ismUSL()) && isreallyUnsafe());
+      return !isSquashed() && ((isCUSL() || ismUSL())&& isreallyUnsafe());
     }
 
     void setCUSL()

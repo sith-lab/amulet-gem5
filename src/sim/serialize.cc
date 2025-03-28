@@ -49,30 +49,8 @@
 #include <cassert>
 #include <cerrno>
 
-#include <fstream>
-#include <list>
-#include <string>
-#include <vector>
-
-#include "arch/generic/vec_reg.hh"
-#include "base/framebuffer.hh"
-#include "base/inifile.hh"
-#include "base/logging.hh"
-#include "base/output.hh"
-#include "base/str.hh"
 #include "base/trace.hh"
 #include "debug/Checkpoint.hh"
-#include "debug/DumpTLBWithCaches.hh"
-#include "sim/eventq.hh"
-#include "sim/sim_events.hh"
-#include "sim/sim_exit.hh"
-#include "sim/sim_object.hh"
-
-#include "sim/globals.hh"
-#include "sim/root.hh"
-
-// For stat reset hack
-#include "sim/stat_control.hh"
 
 namespace gem5
 {
@@ -105,85 +83,6 @@ Serializable::unserializeSection(CheckpointIn &cp, const char *name)
     Serializable::ScopedCheckpointSection sec(cp, name);
     unserialize(cp);
 }
-
-
-void
-Serializable::serializeAll(const std::string &cpt_dir)
-{
-    std::string dir = CheckpointIn::setDir(cpt_dir);
-    if (mkdir(dir.c_str(), 0775) == -1 && errno != EEXIST)
-            fatal("couldn't mkdir %s\n", dir);
-
-    std::string cpt_file = dir + CheckpointIn::baseFilename;
-    std::ofstream outstream(cpt_file.c_str());
-    time_t t = time(NULL);
-    if (!outstream.is_open())
-        fatal("Unable to open file %s for writing\n", cpt_file.c_str());
-    outstream << "## checkpoint generated: " << ctime(&t);
-
-    Root* root = Root::root();
-    Globals globals = root->globals;
-    globals.serializeSection(outstream, "Globals");
-
-    SimObject::serializeAll(cpt_dir);
-}
-
-void
-Serializable::serializeAllMicro(const std::string &cpt_dir, bool ignore_caches)
-{
-    std::string dir = CheckpointIn::setDir(cpt_dir);
-    if (mkdir(dir.c_str(), 0775) == -1 && errno != EEXIST)
-            fatal("couldn't mkdir %s\n", dir);
-
-    std::string cpt_file = dir + CheckpointIn::baseFilename;
-    std::ofstream outstream(cpt_file.c_str());
-    time_t t = time(NULL);
-    if (!outstream.is_open())
-        fatal("Unable to open file %s for writing\n", cpt_file.c_str());
-    outstream << "## checkpoint generated: " << ctime(&t);
-
-    Root* root = Root::root();
-    Globals globals = root->globals;
-    globals.serializeSection(outstream, "Globals");
-
-    SimObject::serializeAllMicro(outstream, ignore_caches);
-}
-
-void
-Serializable::serializeAllCaches(const std::string &dump_dir)
-{
-    std::string dir = CheckpointIn::setDir(dump_dir);
-    if (mkdir(dir.c_str(), 0775) == -1 && errno != EEXIST)
-            fatal("couldn't mkdir %s\n", dir);
-
-    std::string cpt_file = dir + CheckpointIn::baseTagFilename;
-    DPRINTF(Checkpoint, "dumping file %s\n", cpt_file);
-    std::ofstream outstream(cpt_file.c_str());
-    if (!outstream.is_open())
-        fatal("Unable to open file %s for writing\n", cpt_file.c_str());
-    serializeAllCachesTo(outstream);
-}
-void
-Serializable::serializeAllCachesTo(std::ostream &outstream) {
-    time_t t = time(NULL);
-    outstream << "## Cache tags generated: " << ctime(&t);
-
-    SimObject::serializeAllCaches(outstream);
-    if (debug::DumpTLBWithCaches) {
-        SimObject *tlb = SimObject::find("system.cpu.dtb");
-        if (tlb) {
-            tlb->serializeSection(outstream, "system.cpu.dtb");
-        }
-    }
-}
-
-std::string
-Serializable::serializeAllCachesToString() {
-    std::stringstream outstream;
-    Serializable::serializeAllCachesTo(outstream);
-    return outstream.str();
-}
-
 
 void
 Serializable::generateCheckpointOut(const std::string &cpt_dir,
@@ -236,7 +135,6 @@ Serializable::currentSection()
 }
 
 const char *CheckpointIn::baseFilename = "m5.cpt";
-const char *CheckpointIn::baseTagFilename = "m5.tag";
 
 std::string CheckpointIn::currentDirectory;
 
