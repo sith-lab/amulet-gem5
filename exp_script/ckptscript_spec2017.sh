@@ -19,14 +19,14 @@ else
     echo "GEM5_PERF_ROOT is set to '$GEM5_PERF_ROOT'";
 fi
 
-#Need to export SPEC_PATH
+#Need to export SPEC2017_PATH
 # [mengjia] on my desktop, it is /home/mengjia/workspace/benchmarks/cpu2006
-if [ -z ${SPEC_PATH+x} ];
+if [ -z ${SPEC2017_PATH+x} ];
 then
-    echo "SPEC_PATH is unset";
+    echo "SPEC2017_PATH is unset";
     exit
 else
-    echo "SPEC_PATH is set to '$SPEC_PATH'";
+    echo "SPEC2017_PATH is set to '$SPEC2017_PATH'";
 fi
 
 ##################################################################
@@ -184,7 +184,7 @@ fi
 mkdir -p $OUTPUT_DIR
 mkdir -p $CKPT_OUT_DIR
 
-RUN_DIR=$SPEC_PATH/benchspec/CPU/$BENCHMARK_CODE/run/run_base_refrate_gem5-m64.0000
+RUN_DIR=$SPEC2017_PATH/benchspec/CPU/$BENCHMARK_CODE/run/run_base_refrate_gem5-m64.0000
 
 #run_base_ref\_my-alpha.0000
 # Run directory for the selected SPEC benchmark
@@ -197,7 +197,7 @@ echo "Command line:"                                | tee $SCRIPT_OUT
 echo "$0 $*"                                        | tee -a $SCRIPT_OUT
 echo "================= Hardcoded directories ==================" | tee -a $SCRIPT_OUT
 echo "GEM5_PATH:                                     $GEM5_PATH" | tee -a $SCRIPT_OUT
-echo "SPEC_PATH:                                     $SPEC_PATH" | tee -a $SCRIPT_OUT
+echo "SPEC2017_PATH:                                     $SPEC2017_PATH" | tee -a $SCRIPT_OUT
 echo "==================== Script inputs =======================" | tee -a $SCRIPT_OUT
 echo "BENCHMARK:                                    $BENCHMARK" | tee -a $SCRIPT_OUT
 echo "OUTPUT_DIR:                                   $OUTPUT_DIR" | tee -a $SCRIPT_OUT
