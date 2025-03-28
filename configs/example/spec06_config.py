@@ -265,7 +265,7 @@ if args.benchmark:
         print('--> specrand_f')
         process = spec06_benchmarks.specrand_f
     else:
-        print ("No recognized SPEC2006 benchmark selected! Exiting.")
+        print("No recognized SPEC2006 benchmark selected! Exiting.")
         sys.exit(1)
 else:
     print >> sys.stderr, "Need --benchmark switch to specify SPEC CPU2006 workload. Exiting!\n"
