@@ -33,17 +33,15 @@ fi
  
 ARGC=$# # Get number of arguments excluding arg0 (the script itself). Check for help message condition.
 if [[ "$ARGC" != 2 ]]; then # Bad number of arguments.
-   echo "run_gem5_alpha_spec06_benchmark.sh  Copyright (C) 2014 Mark Gottscho"
+   echo "run_spec2017_from_ckpt.sh"
    echo "This program comes with ABSOLUTELY NO WARRANTY; for details see <http://www.gnu.org/licenses/>."
    echo "This is free software, and you are welcome to redistribute it under certain conditions; see <http://www.gnu.org/licenses/> for details."
    echo ""
-    echo "Author: Mark Gottscho"
-    echo "mgottscho@ucla.edu"
     echo ""
     echo "This script runs a single gem5 simulation of a single SPEC CPU2017 benchmark"
     echo ""
-    echo "USAGE: run_gem5_alpha_spec06_benchmark.sh <BENCHMARK> <SCHEME>"
-    echo "EXAMPLE: ./run_gem5_alpha_spec06_benchmark.sh bzip2 UnsafeBaseline"
+    echo "USAGE: run_spec2017_from_ckpt.sh <BENCHMARK> <SCHEME>"
+    echo "EXAMPLE: ./run_spec2017_from_ckpt.sh bwaves_r unsafebaseline"
     echo ""
     echo "A single --help help or -h argument will bring this message back."
     exit
@@ -54,154 +52,124 @@ BENCHMARK=$1                    # Benchmark name, e.g. bzip2
 SCHEME=$2
 
 # Checkpoint configuration
-#CHECKPOINT_CONFIG="o3_4Gmem_1000"
-#INST_TAKE_CHECKPOINT=1000
-CHECKPOINT_CONFIG="o3_4Gmem_100K"
-INST_TAKE_CHECKPOINT=100000
+CHECKPOINT_CONFIG="o3_4Gmem_10K"
+INST_TAKE_CHECKPOINT=10000
+# CHECKPOINT_CONFIG="o3_4Gmem_100K"
+# INST_TAKE_CHECKPOINT=100000
 # CHECKPOINT_CONFIG="o3_4Gmem_10B"
 # INST_TAKE_CHECKPOINT=10000000000
 
 ######################### BENCHMARK CODENAMES ####################
-PERLBENCH_CODE=400.perlbench
-BZIP2_CODE=401.bzip2
-GCC_CODE=403.gcc
-BWAVES_CODE=410.bwaves
-GAMESS_CODE=416.gamess
-MCF_CODE=429.mcf
-MILC_CODE=433.milc
-ZEUSMP_CODE=434.zeusmp
-GROMACS_CODE=435.gromacs
-CACTUSADM_CODE=436.cactusADM
-LESLIE3D_CODE=437.leslie3d
-NAMD_CODE=444.namd
-GOBMK_CODE=445.gobmk
-DEALII_CODE=447.dealII
-SOPLEX_CODE=450.soplex
-POVRAY_CODE=453.povray
-CALCULIX_CODE=454.calculix
-HMMER_CODE=456.hmmer
-SJENG_CODE=458.sjeng
-GEMSFDTD_CODE=459.GemsFDTD
-LIBQUANTUM_CODE=462.libquantum
-H264REF_CODE=464.h264ref
-TONTO_CODE=465.tonto
-LBM_CODE=470.lbm
-OMNETPP_CODE=471.omnetpp
-ASTAR_CODE=473.astar
-WRF_CODE=481.wrf
-SPHINX3_CODE=482.sphinx3
-XALANCBMK_CODE=483.xalancbmk
-SPECRAND_INT_CODE=998.specrand
-SPECRAND_FLOAT_CODE=999.specrand
+PERLBENCH_R_CODE=500.perlbench_r
+PERLBENCH_S_CODE=600.perlbench_s
+GCC_R_CODE=502.gcc_r
+GCC_S_CODE=602.gcc_s
+MCF_R_CODE=505.mcf_r
+MCF_S_CODE=605.mcf_s
+OMNETPP_R_CODE=520.omnetpp_r
+OMNETPP_S_CODE=620.omnetpp_s
+XALANCBMK_R_CODE=523.xalancbmk_r
+XALANCBMK_S_CODE=623.xalancbmk_s
+X264_R_CODE=525.x264_r
+X264_S_CODE=625.x264_s
+DEEPSJENG_R_CODE=531.deepsjeng_r
+DEEPSJENG_S_CODE=631.deepsjeng_s
+LEELA_R_CODE=541.leela_r
+LEELA_S_CODE=641.leela_s
+EXCHANGE2_R_CODE=548.exchange2_r
+EXCHANGE2_S_CODE=648.exchange2_s
+XZ_R_CODE=557.xz_r
+XZ_S_CODE=657.xz_s
+BWAVES_R_CODE=503.bwaves_r
+BWAVES_S_CODE=603.bwaves_s
+CACTUBSSN_R_CODE=507.cactuBSSN_r
+CACTUBSSN_S_CODE=607.cactuBSSN_s
+NAMD_R_CODE=508.namd_r
+PAREST_R_CODE=510.parest_r
+POVRAY_R_CODE=511.povray_r
+LBM_R_CODE=519.lbm_r
+LBM_S_CODE=619.lbm_s
+WRF_R_CODE=521.wrf_r
+WRF_S_CODE=621.wrf_s
+BLENDER_R_CODE=526.blender_r
+CAM4_R_CODE=527.cam4_r
+CAM4_S_CODE=627.cam4_s
+POP2_S_CODE=628.pop2_s
+IMAGICK_R_CODE=538.imagick_r
+IMAGICK_S_CODE=638.imagick_s
+NAB_R_CODE=544.nab_r
+NAB_S_CODE=644.nab_s
+FOTONIK3D_R_CODE=549.fotonik3d_r
+FOTONIK3D_S_CODE=649.fotonik3d_s
+ROMS_R_CODE=554.roms_r
+ROMS_S_CODE=654.roms_s
+SPECRAND_FS_CODE=996.specrand_fs
+SPECRAND_FR_CODE=997.specrand_fr
+SPECRAND_IS_CODE=998.specrand_is
+SPECRAND_IR_CODE=999.specrand_ir
 ##################################################################
- 
+
 # Check BENCHMARK input
 #################### BENCHMARK CODE MAPPING ######################
 BENCHMARK_CODE="none"
- 
-if [[ "$BENCHMARK" == "perlbench" ]]; then
-    BENCHMARK_CODE=$PERLBENCH_CODE
-fi
-if [[ "$BENCHMARK" == "bzip2" ]]; then
-    BENCHMARK_CODE=$BZIP2_CODE
-fi
-if [[ "$BENCHMARK" == "gcc" ]]; then
-    BENCHMARK_CODE=$GCC_CODE
-fi
-if [[ "$BENCHMARK" == "bwaves" ]]; then
-    BENCHMARK_CODE=$BWAVES_CODE
-fi
-if [[ "$BENCHMARK" == "gamess" ]]; then
-    BENCHMARK_CODE=$GAMESS_CODE
-fi
-if [[ "$BENCHMARK" == "mcf" ]]; then
-    BENCHMARK_CODE=$MCF_CODE
-fi
-if [[ "$BENCHMARK" == "milc" ]]; then
-    BENCHMARK_CODE=$MILC_CODE
-fi
-if [[ "$BENCHMARK" == "zeusmp" ]]; then
-    BENCHMARK_CODE=$ZEUSMP_CODE
-fi
-if [[ "$BENCHMARK" == "gromacs" ]]; then
-    BENCHMARK_CODE=$GROMACS_CODE
-fi
-if [[ "$BENCHMARK" == "cactusADM" ]]; then
-    BENCHMARK_CODE=$CACTUSADM_CODE
-fi
-if [[ "$BENCHMARK" == "leslie3d" ]]; then
-    BENCHMARK_CODE=$LESLIE3D_CODE
-fi
-if [[ "$BENCHMARK" == "namd" ]]; then
-    BENCHMARK_CODE=$NAMD_CODE
-fi
-if [[ "$BENCHMARK" == "gobmk" ]]; then
-    BENCHMARK_CODE=$GOBMK_CODE
-fi
-if [[ "$BENCHMARK" == "dealII" ]]; then # DOES NOT WORK
-    BENCHMARK_CODE=$DEALII_CODE
-fi
-if [[ "$BENCHMARK" == "soplex" ]]; then
-    BENCHMARK_CODE=$SOPLEX_CODE
-fi
-if [[ "$BENCHMARK" == "povray" ]]; then
-    BENCHMARK_CODE=$POVRAY_CODE
-fi
-if [[ "$BENCHMARK" == "calculix" ]]; then
-    BENCHMARK_CODE=$CALCULIX_CODE
-fi
-if [[ "$BENCHMARK" == "hmmer" ]]; then
-    BENCHMARK_CODE=$HMMER_CODE
-fi
-if [[ "$BENCHMARK" == "sjeng" ]]; then
-    BENCHMARK_CODE=$SJENG_CODE
-fi
-if [[ "$BENCHMARK" == "GemsFDTD" ]]; then
-    BENCHMARK_CODE=$GEMSFDTD_CODE
-fi
-if [[ "$BENCHMARK" == "libquantum" ]]; then
-    BENCHMARK_CODE=$LIBQUANTUM_CODE
-fi
-if [[ "$BENCHMARK" == "h264ref" ]]; then
-    BENCHMARK_CODE=$H264REF_CODE
-fi
-if [[ "$BENCHMARK" == "tonto" ]]; then
-    BENCHMARK_CODE=$TONTO_CODE
-fi
-if [[ "$BENCHMARK" == "lbm" ]]; then
-    BENCHMARK_CODE=$LBM_CODE
-fi
-if [[ "$BENCHMARK" == "omnetpp" ]]; then
-    BENCHMARK_CODE=$OMNETPP_CODE
-fi
-if [[ "$BENCHMARK" == "astar" ]]; then
-    BENCHMARK_CODE=$ASTAR_CODE
-fi
-if [[ "$BENCHMARK" == "wrf" ]]; then
-    BENCHMARK_CODE=$WRF_CODE
-fi
-if [[ "$BENCHMARK" == "sphinx3" ]]; then
-    BENCHMARK_CODE=$SPHINX3_CODE
-fi
-if [[ "$BENCHMARK" == "xalancbmk" ]]; then # DOES NOT WORK
-    BENCHMARK_CODE=$XALANCBMK_CODE
-fi
-if [[ "$BENCHMARK" == "specrand_i" ]]; then
-    BENCHMARK_CODE=$SPECRAND_INT_CODE
-fi
-if [[ "$BENCHMARK" == "specrand_f" ]]; then
-    BENCHMARK_CODE=$SPECRAND_FLOAT_CODE
-fi
- 
+
+if [[ "$BENCHMARK" == "perlbench_r" ]]; then BENCHMARK_CODE=$PERLBENCH_R_CODE; fi
+if [[ "$BENCHMARK" == "perlbench_s" ]]; then BENCHMARK_CODE=$PERLBENCH_S_CODE; fi
+if [[ "$BENCHMARK" == "gcc_r" ]]; then BENCHMARK_CODE=$GCC_R_CODE; fi
+if [[ "$BENCHMARK" == "gcc_s" ]]; then BENCHMARK_CODE=$GCC_S_CODE; fi
+if [[ "$BENCHMARK" == "mcf_r" ]]; then BENCHMARK_CODE=$MCF_R_CODE; fi
+if [[ "$BENCHMARK" == "mcf_s" ]]; then BENCHMARK_CODE=$MCF_S_CODE; fi
+if [[ "$BENCHMARK" == "omnetpp_r" ]]; then BENCHMARK_CODE=$OMNETPP_R_CODE; fi
+if [[ "$BENCHMARK" == "omnetpp_s" ]]; then BENCHMARK_CODE=$OMNETPP_S_CODE; fi
+if [[ "$BENCHMARK" == "xalancbmk_r" ]]; then BENCHMARK_CODE=$XALANCBMK_R_CODE; fi
+if [[ "$BENCHMARK" == "xalancbmk_s" ]]; then BENCHMARK_CODE=$XALANCBMK_S_CODE; fi
+if [[ "$BENCHMARK" == "x264_r" ]]; then BENCHMARK_CODE=$X264_R_CODE; fi
+if [[ "$BENCHMARK" == "x264_s" ]]; then BENCHMARK_CODE=$X264_S_CODE; fi
+if [[ "$BENCHMARK" == "deepsjeng_r" ]]; then BENCHMARK_CODE=$DEEPSJENG_R_CODE; fi
+if [[ "$BENCHMARK" == "deepsjeng_s" ]]; then BENCHMARK_CODE=$DEEPSJENG_S_CODE; fi
+if [[ "$BENCHMARK" == "leela_r" ]]; then BENCHMARK_CODE=$LEELA_R_CODE; fi
+if [[ "$BENCHMARK" == "leela_s" ]]; then BENCHMARK_CODE=$LEELA_S_CODE; fi
+if [[ "$BENCHMARK" == "exchange2_r" ]]; then BENCHMARK_CODE=$EXCHANGE2_R_CODE; fi
+if [[ "$BENCHMARK" == "exchange2_s" ]]; then BENCHMARK_CODE=$EXCHANGE2_S_CODE; fi
+if [[ "$BENCHMARK" == "xz_r" ]]; then BENCHMARK_CODE=$XZ_R_CODE; fi
+if [[ "$BENCHMARK" == "xz_s" ]]; then BENCHMARK_CODE=$XZ_S_CODE; fi
+if [[ "$BENCHMARK" == "bwaves_r" ]]; then BENCHMARK_CODE=$BWAVES_R_CODE; fi
+if [[ "$BENCHMARK" == "bwaves_s" ]]; then BENCHMARK_CODE=$BWAVES_S_CODE; fi
+if [[ "$BENCHMARK" == "cactuBSSN_r" ]]; then BENCHMARK_CODE=$CACTUBSSN_R_CODE; fi
+if [[ "$BENCHMARK" == "cactuBSSN_s" ]]; then BENCHMARK_CODE=$CACTUBSSN_S_CODE; fi
+if [[ "$BENCHMARK" == "namd_r" ]]; then BENCHMARK_CODE=$NAMD_R_CODE; fi
+if [[ "$BENCHMARK" == "parest_r" ]]; then BENCHMARK_CODE=$PAREST_R_CODE; fi
+if [[ "$BENCHMARK" == "povray_r" ]]; then BENCHMARK_CODE=$POVRAY_R_CODE; fi
+if [[ "$BENCHMARK" == "lbm_r" ]]; then BENCHMARK_CODE=$LBM_R_CODE; fi
+if [[ "$BENCHMARK" == "lbm_s" ]]; then BENCHMARK_CODE=$LBM_S_CODE; fi
+if [[ "$BENCHMARK" == "wrf_r" ]]; then BENCHMARK_CODE=$WRF_R_CODE; fi
+if [[ "$BENCHMARK" == "wrf_s" ]]; then BENCHMARK_CODE=$WRF_S_CODE; fi
+if [[ "$BENCHMARK" == "blender_r" ]]; then BENCHMARK_CODE=$BLENDER_R_CODE; fi
+if [[ "$BENCHMARK" == "cam4_r" ]]; then BENCHMARK_CODE=$CAM4_R_CODE; fi
+if [[ "$BENCHMARK" == "cam4_s" ]]; then BENCHMARK_CODE=$CAM4_S_CODE; fi
+if [[ "$BENCHMARK" == "pop2_s" ]]; then BENCHMARK_CODE=$POP2_S_CODE; fi
+if [[ "$BENCHMARK" == "imagick_r" ]]; then BENCHMARK_CODE=$IMAGICK_R_CODE; fi
+if [[ "$BENCHMARK" == "imagick_s" ]]; then BENCHMARK_CODE=$IMAGICK_S_CODE; fi
+if [[ "$BENCHMARK" == "nab_r" ]]; then BENCHMARK_CODE=$NAB_R_CODE; fi
+if [[ "$BENCHMARK" == "nab_s" ]]; then BENCHMARK_CODE=$NAB_S_CODE; fi
+if [[ "$BENCHMARK" == "fotonik3d_r" ]]; then BENCHMARK_CODE=$FOTONIK3D_R_CODE; fi
+if [[ "$BENCHMARK" == "fotonik3d_s" ]]; then BENCHMARK_CODE=$FOTONIK3D_S_CODE; fi
+if [[ "$BENCHMARK" == "roms_r" ]]; then BENCHMARK_CODE=$ROMS_R_CODE; fi
+if [[ "$BENCHMARK" == "roms_s" ]]; then BENCHMARK_CODE=$ROMS_S_CODE; fi
+if [[ "$BENCHMARK" == "specrand_fs" ]]; then BENCHMARK_CODE=$SPECRAND_FS_CODE; fi
+if [[ "$BENCHMARK" == "specrand_fr" ]]; then BENCHMARK_CODE=$SPECRAND_FR_CODE; fi
+if [[ "$BENCHMARK" == "specrand_is" ]]; then BENCHMARK_CODE=$SPECRAND_IS_CODE; fi
+if [[ "$BENCHMARK" == "specrand_ir" ]]; then BENCHMARK_CODE=$SPECRAND_IR_CODE; fi
+
 # Sanity check
 if [[ "$BENCHMARK_CODE" == "none" ]]; then
-    echo "Input benchmark selection $BENCHMARK did not match any known SPEC CPU2017 benchmarks! Exiting."
+    echo "Input benchmark selection $BENCHMARK did not match any known SPEC2017 CPU benchmarks! Exiting."
     exit 1
 fi
 ##################################################################
 
 OUTPUT_DIR=$GEM5_PERF_ROOT/output/checkpoints/${CHECKPOINT_CONFIG}/SPEC-$BENCHMARK-$SCHEME
-CKPT_OUT_DIR=$GEM5_PERF_ROOT/gem5_ckpt/${CHECKPOINT_CONFIG}/$BENCHMARK-1-ref-x86
+CKPT_OUT_DIR=$GEM5_PERF_ROOT/gem5_ckpt/${CHECKPOINT_CONFIG}/$BENCHMARK-spec2017
 
 echo "checkpoint direcotory: " $CKPT_OUT_DIR
 echo "output directory: " $OUTPUT_DIR
@@ -252,20 +220,21 @@ $GEM5_PATH/build/X86/gem5.opt \
 	--benchmark_stderr=$OUTPUT_DIR/$BENCHMARK.err \
 	--checkpoint-dir=$CKPT_OUT_DIR \
 	--checkpoint-restore=$INST_TAKE_CHECKPOINT --at-instruction \
-    --num-cpus=1 \
-    --bp-type=BiModeBP \
-    --caches \
-    --l2cache \
-    --cacheline=64 \
-    --num-l2cache=1 \
-    --l1i_size=64kB \
-    --l1i_assoc=4 \
-    --l1d_size=16kB \
-    --l1d_assoc=4 \
-    --l2_size=256kB \
-    --l2_assoc=4 \
-    --mem-size=8192MB \
-    --cpu-type=DerivO3CPU\
-    --scheme=Speclfb \
+    --restore-with-cpu=AtomicSimpleCPU \
+        --num-cpus=1 \
+        --mem-size=8192MB \
+        --bp-type=BiModeBP \
+        --caches \
+        --l2cache \
+        --cacheline=64 \
+        --num-l2cache=1 \
+        --l1i_size=64kB \
+        --l1i_assoc=4 \
+        --l1d_size=16kB \
+        --l1d_assoc=4 \
+        --l2_size=256kB \
+        --l2_assoc=4 \
+    --cpu-type=DerivO3CPU \
+    --scheme=$SCHEME \
   --maxinsts=1000000000 | tee -a $SCRIPT_OUT
 

@@ -33,17 +33,15 @@ fi
  
 ARGC=$# # Get number of arguments excluding arg0 (the script itself). Check for help message condition.
 if [[ "$ARGC" != 2 ]]; then # Bad number of arguments.
-   echo "run_gem5_alpha_spec06_benchmark.sh  Copyright (C) 2014 Mark Gottscho"
+   echo "run_spec2017_from_ckpt.sh"
    echo "This program comes with ABSOLUTELY NO WARRANTY; for details see <http://www.gnu.org/licenses/>."
    echo "This is free software, and you are welcome to redistribute it under certain conditions; see <http://www.gnu.org/licenses/> for details."
    echo ""
-    echo "Author: Mark Gottscho"
-    echo "mgottscho@ucla.edu"
     echo ""
-    echo "This script runs a single gem5 simulation of a single SPEC CPU2006 benchmark for Alpha ISA."
+    echo "This script runs a single gem5 simulation of a single SPEC CPU2006 benchmark"
     echo ""
-    echo "USAGE: run_gem5_alpha_spec06_benchmark.sh <BENCHMARK> <SCHEME>"
-    echo "EXAMPLE: ./run_gem5_alpha_spec06_benchmark.sh bzip2 UnsafeBaseline"
+    echo "USAGE: run_spec2017_from_ckpt.sh <BENCHMARK> <SCHEME>"
+    echo "EXAMPLE: ./run_spec2017_from_ckpt.sh perlbench UnsafeBaseline"
     echo ""
     echo "A single --help help or -h argument will bring this message back."
     exit
@@ -54,8 +52,8 @@ BENCHMARK=$1                    # Benchmark name, e.g. bzip2
 SCHEME=$2
 
 # Checkpoint configuration
-CHECKPOINT_CONFIG="o3_4Gmem_1000"
-INST_TAKE_CHECKPOINT=1000
+CHECKPOINT_CONFIG="o3_4Gmem_10K"
+INST_TAKE_CHECKPOINT=10000
 # CHECKPOINT_CONFIG="o3_4Gmem_100K"
 # INST_TAKE_CHECKPOINT=100000
 # CHECKPOINT_CONFIG="o3_4Gmem_10B"
