@@ -252,7 +252,7 @@ $GEM5_PATH/build/X86/gem5.opt \
 	--benchmark_stderr=$OUTPUT_DIR/$BENCHMARK.err \
 	--checkpoint-dir=$CKPT_OUT_DIR \
 	--checkpoint-restore=$INST_TAKE_CHECKPOINT --at-instruction \
-    --restore-with-cpu=TimingSimpleCPU \
+    --restore-with-cpu=AtomicSimpleCPU \
         --num-cpus=1 \
         --mem-size=8192MB \
         --bp-type=BiModeBP \

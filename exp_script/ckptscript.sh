@@ -255,7 +255,7 @@ $GEM5_PATH/build/X86/gem5.opt \
 	--benchmark_stderr=$OUTPUT_DIR/$BENCHMARK.err \
         --num-cpus=1 \
         --mem-size=8192MB \
-    --cpu-type=TimingSimpleCPU --scheme=$SCHEME \
+    --cpu-type=AtomicSimpleCPU --scheme=$SCHEME \
 	--checkpoint-dir=$CKPT_OUT_DIR \
 	--take-checkpoint=$INST_TAKE_CHECKPOINT --at-instruction \
     --maxinsts=$MAX_INSTS \
