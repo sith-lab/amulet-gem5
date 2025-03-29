@@ -910,6 +910,8 @@ LSQUnit::updateSafeState()
                        rob_unsafe.unsafePCremove(inst->pcState().instAddr());
                     }
             }
+            
+        //iter++;
     }
 }
 
