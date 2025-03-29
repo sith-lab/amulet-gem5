@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Checkpoint configuration
+MAX_INSTS=1000000000;
+
+CHECKPOINT_CONFIG="o3_4Gmem_10K"
+INST_TAKE_CHECKPOINT=10000
+# CHECKPOINT_CONFIG="o3_4Gmem_100K"
+# INST_TAKE_CHECKPOINT=100000
+# CHECKPOINT_CONFIG="o3_4Gmem_10B"
+# INST_TAKE_CHECKPOINT=10000000000
+
 ############ DIRECTORY VARIABLES: MODIFY ACCORDINGLY #############
 #Need to export GEM5_PATH
 if [ -z ${GEM5_PATH+x} ];
@@ -50,14 +60,6 @@ fi
 # Get command line input. We will need to check these.
 BENCHMARK=$1                    # Benchmark name, e.g. bzip2
 SCHEME=$2
-
-# Checkpoint configuration
-CHECKPOINT_CONFIG="o3_4Gmem_10K"
-INST_TAKE_CHECKPOINT=10000
-# CHECKPOINT_CONFIG="o3_4Gmem_100K"
-# INST_TAKE_CHECKPOINT=100000
-# CHECKPOINT_CONFIG="o3_4Gmem_10B"
-# INST_TAKE_CHECKPOINT=10000000000
 
 ######################### BENCHMARK CODENAMES ####################
 PERLBENCH_CODE=400.perlbench
@@ -266,5 +268,11 @@ $GEM5_PATH/build/X86/gem5.opt \
         --l2_assoc=4 \
     --cpu-type=DerivO3CPU \
     --scheme=$SCHEME \
-  --maxinsts=1000000000 | tee -a $SCRIPT_OUT
+        --redirects=/lib=/lib \
+        --redirects=/lib64=/lib64 \
+        --redirects=/usr=/usr \
+        --redirects=/bin=/bin \
+        --redirects=/etc=/etc \
+        --redirects=/tmp=$OUTPUT_DIR/tmp \
+  --maxinsts=$MAX_INSTS | tee -a $SCRIPT_OUT
 
