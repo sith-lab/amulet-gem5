@@ -168,7 +168,7 @@ if [[ "$BENCHMARK_CODE" == "none" ]]; then
 fi
 ##################################################################
 
-OUTPUT_DIR=$GEM5_PERF_ROOT/output/checkpoints/${CHECKPOINT_CONFIG}/SPEC-$BENCHMARK-$SCHEME
+OUTPUT_DIR=$GEM5_PERF_ROOT/output/checkpoints/${CHECKPOINT_CONFIG}/SPEC2017-$BENCHMARK-$SCHEME
 CKPT_OUT_DIR=$GEM5_PERF_ROOT/gem5_ckpt/${CHECKPOINT_CONFIG}/$BENCHMARK-spec2017
 
 echo "checkpoint direcotory: " $CKPT_OUT_DIR
